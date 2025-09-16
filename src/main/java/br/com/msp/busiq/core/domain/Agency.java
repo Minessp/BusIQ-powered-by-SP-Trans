@@ -10,7 +10,7 @@ import java.net.URL;
  * @param agencyTimezone Fuso horário da agência.
  * @param agencyLang Idioma principal da agência.
  */
-public record Agency(int agencyId,
+public record Agency(String agencyId,
                      String agencyName,
                      URL agencyUrl,
                      String agencyTimezone,
