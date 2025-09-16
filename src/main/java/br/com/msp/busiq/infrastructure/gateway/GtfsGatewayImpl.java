@@ -30,13 +30,35 @@ public class GtfsGatewayImpl implements GtfsGateway {
     @Override
     public Path download() {
         try {
-            Files.createDirectories(Paths.get(DESTINATION_PATH));
+            Path dir = Paths.get(DESTINATION_PATH);
+            Files.createDirectories(dir);
+
+            try (Stream<Path> files = Files.list(dir)) {
+                files.forEach(path -> {
+                    String name = path.getFileName().toString();
+                    try {
+                        if (name.endsWith(".zip") || (Files.isDirectory(path) && name.endsWith("_extracted"))) {
+                            if (Files.isDirectory(path)) {
+                                try (Stream<Path> walk = Files.walk(path)) {
+                                    walk.sorted(Comparator.reverseOrder()).forEach(p -> {
+                                        try { Files.deleteIfExists(p); } catch (IOException ignored) {}
+                                    });
+                                }
+                            } else {
+                                Files.deleteIfExists(path);
+                            }
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException("Erro ao deletar o arquivo " + path, e);
+                    }
+                });
+            }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
             LocalDateTime dateTimeNow = LocalDateTime.now();
             String formattedDateTime = dateTimeNow.format(formatter);
 
-            Path filePath =  Paths.get(DESTINATION_PATH, "gtfs_" + formattedDateTime + ".zip");
+            Path filePath = Paths.get(DESTINATION_PATH, "gtfs_" + formattedDateTime + ".zip");
 
             try (InputStream in = new URI(GTFS_URL).toURL().openStream()) {
                 Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
