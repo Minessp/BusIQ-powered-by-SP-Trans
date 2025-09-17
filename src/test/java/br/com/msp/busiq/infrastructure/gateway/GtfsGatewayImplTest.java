@@ -3,6 +3,7 @@ package br.com.msp.busiq.infrastructure.gateway;
 import br.com.msp.busiq.core.gateway.GtfsGateway;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -53,12 +55,14 @@ class GtfsGatewayImplTest {
 
     @Test
     void extractGtfsSuccess() {
-        Path path = gtfsGateway.download();
+        gtfsGateway.download();
         assertTrue(Files.exists(gtfsGateway.extract()));
     }
 
     @Test
-    void extractGtfsError() {
-        assertTrue(Files.exists(gtfsGateway.extract()));
+    void extractGtfsErrorExpected() {
+        assertThrows(RuntimeException.class, () -> {
+            gtfsGateway.extract();
+        });
     }
 }
