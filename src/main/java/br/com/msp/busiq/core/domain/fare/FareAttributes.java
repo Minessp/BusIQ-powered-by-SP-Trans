@@ -15,7 +15,7 @@ public record FareAttributes(String fareId,
                              BigDecimal price,
                              String currencyType,
                              int paymentMethod,
-                             Integer transfers,
-                             Integer transferDuration
+                             int transfers,
+                             int transferDuration
 ) {
 }
