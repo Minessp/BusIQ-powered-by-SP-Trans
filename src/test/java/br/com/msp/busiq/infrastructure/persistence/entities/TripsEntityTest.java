@@ -1,6 +1,5 @@
-package br.com.msp.busiq.infrastructure.persistence;
+package br.com.msp.busiq.infrastructure.persistence.entities;
 
-import br.com.msp.busiq.infrastructure.persistence.entities.TripsEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.TripsRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

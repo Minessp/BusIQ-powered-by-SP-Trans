@@ -57,7 +57,11 @@ public record StopTimes(String tripId,
         }
 
         public StopTimes build() {
-            return new StopTimes(tripId, arrivalTime, departureTime, stopId, stopSequence);
+            return new StopTimes(tripId,
+                                 arrivalTime,
+                                 departureTime,
+                                 stopId,
+                                 stopSequence);
         }
     }
 }

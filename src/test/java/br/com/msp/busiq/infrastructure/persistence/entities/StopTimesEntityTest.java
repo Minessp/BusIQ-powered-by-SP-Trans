@@ -1,6 +1,5 @@
-package br.com.msp.busiq.infrastructure.persistence;
+package br.com.msp.busiq.infrastructure.persistence.entities;
 
-import br.com.msp.busiq.infrastructure.persistence.entities.StopTimesEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.StopTimesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ class StopTimesEntityTest extends DatabaseConnectionTest {
                 LocalTime.of(18, 0, 0),
                 LocalTime.of(18, 0, 0),
                 "301790",
+                null,
                 1
         );
 

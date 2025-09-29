@@ -55,7 +55,11 @@ public record Shapes(String shapeId,
         }
 
         public Shapes build() {
-            return new Shapes(shapeId, lat, lon, sequence, distTraveled);
+            return new Shapes(shapeId,
+                              lat,
+                              lon,
+                              sequence,
+                              distTraveled);
         }
     }
 }

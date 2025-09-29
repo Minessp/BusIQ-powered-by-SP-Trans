@@ -20,10 +20,10 @@ public class FareAttributesEntity{
     private int paymentMethod;
 
     @Column(name = "transfers")
-    private int transfers;
+    private Integer transfers;
 
     @Column(name = "transfer_duration")
-    private int transferDuration;
+    private Integer transferDuration;
 
     public FareAttributesEntity() {}
 

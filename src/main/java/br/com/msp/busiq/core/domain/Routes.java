@@ -80,7 +80,13 @@ public record Routes(String routeId,
         }
 
         public Routes build() {
-            return new Routes(routeId, agencyId, routeShortName, routeLongName, routeType, routeColor, routeTextColor);
+            return new Routes(routeId,
+                              agencyId,
+                              routeShortName,
+                              routeLongName,
+                              routeType,
+                              routeColor,
+                              routeTextColor);
         }
     }
 }

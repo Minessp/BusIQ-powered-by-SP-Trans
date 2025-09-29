@@ -72,7 +72,12 @@ public record Trips(String routeId,
         }
 
         public Trips build() {
-            return new Trips(routeId, serviceId, tripId, tripHeadsign, directionId, shapeId);
+            return new Trips(routeId,
+                             serviceId,
+                             tripId,
+                             tripHeadsign,
+                             directionId,
+                             shapeId);
         }
     }
 }

@@ -1,7 +1,6 @@
-package br.com.msp.busiq.infrastructure.persistence.fare;
+package br.com.msp.busiq.infrastructure.persistence.entities.fare;
 
-import br.com.msp.busiq.infrastructure.persistence.DatabaseConnectionTest;
-import br.com.msp.busiq.infrastructure.persistence.entities.fare.FareAttributesEntity;
+import br.com.msp.busiq.infrastructure.persistence.entities.DatabaseConnectionTest;
 import br.com.msp.busiq.infrastructure.persistence.repositories.fare.FareAttributesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

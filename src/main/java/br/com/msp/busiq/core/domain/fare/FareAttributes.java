@@ -15,8 +15,8 @@ public record FareAttributes(String fareId,
                              BigDecimal price,
                              String currencyType,
                              int paymentMethod,
-                             int transfers,
-                             int transferDuration
+                             Integer transfers,
+                             Integer transferDuration
 ) {
 
     public static Builder builder() {
@@ -28,8 +28,8 @@ public record FareAttributes(String fareId,
         private BigDecimal price;
         private String currencyType;
         private int paymentMethod;
-        private int transfers;
-        private int transferDuration;
+        private Integer transfers;
+        private Integer transferDuration;
 
         public Builder builder() {
             return this;
@@ -55,18 +55,23 @@ public record FareAttributes(String fareId,
             return this;
         }
 
-        public Builder transfers(int transfers) {
+        public Builder transfers(Integer transfers) {
             this.transfers = transfers;
             return this;
         }
 
-        public Builder transferDuration(int transferDuration) {
+        public Builder transferDuration(Integer transferDuration) {
             this.transferDuration = transferDuration;
             return this;
         }
 
         public FareAttributes build() {
-            return new FareAttributes(fareId, price, currencyType, paymentMethod, transfers, transferDuration);
+            return new FareAttributes(fareId,
+                                        price,
+                                        currencyType,
+                                        paymentMethod,
+                                        transfers,
+                                        transferDuration);
         }
     }
 }

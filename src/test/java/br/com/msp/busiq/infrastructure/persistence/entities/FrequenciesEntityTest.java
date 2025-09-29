@@ -1,6 +1,5 @@
-package br.com.msp.busiq.infrastructure.persistence;
+package br.com.msp.busiq.infrastructure.persistence.entities;
 
-import br.com.msp.busiq.infrastructure.persistence.entities.FrequenciesEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.FrequenciesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

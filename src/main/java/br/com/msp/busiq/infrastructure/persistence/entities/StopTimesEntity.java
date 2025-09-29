@@ -1,5 +1,6 @@
 package br.com.msp.busiq.infrastructure.persistence.entities;
 
+import br.com.msp.busiq.core.domain.Stops;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 
@@ -26,15 +27,20 @@ public class StopTimesEntity {
     @Column(name = "stop_id", nullable = false, length = 64)
     private String stopId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stop_id", referencedColumnName = "stop_id", insertable = false, updatable = false)
+    private StopsEntity stops;
+
     public StopTimesEntity() {}
 
     public StopTimesEntity(String tripId, LocalTime arrivalTime,
-                           LocalTime departureTime, String stopId, int stopSequence) {
+                           LocalTime departureTime, String stopId, StopsEntity stops, int stopSequence) {
         this.tripId = tripId;
         this.stopSequence = stopSequence;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
         this.stopId = stopId;
+        this.stops = stops;
     }
 
     public String getTripId() {

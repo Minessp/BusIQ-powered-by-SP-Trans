@@ -56,7 +56,11 @@ public record FareRules(String fareId,
         }
 
         public FareRules build() {
-            return new FareRules(fareId, routeId, originId, destinationId, containsId);
+            return new FareRules(fareId,
+                                 routeId,
+                                 originId,
+                                 destinationId,
+                                 containsId);
         }
     }
 }

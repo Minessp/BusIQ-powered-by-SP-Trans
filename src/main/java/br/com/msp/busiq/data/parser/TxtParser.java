@@ -1,97 +1,235 @@
 package br.com.msp.busiq.data.parser;
 
-import br.com.msp.busiq.core.domain.Agency;
-import org.springframework.beans.factory.annotation.Value;
+import br.com.msp.busiq.core.domain.*;
+import br.com.msp.busiq.core.domain.fare.FareAttributes;
+import br.com.msp.busiq.core.domain.fare.FareRules;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Component
 public class TxtParser {
-    @Value("${gtfs.destination-path}")
-    private Path path;
 
-    public List<Agency> toAgency() {
-        List<Agency> agencies = new ArrayList<>();
+    private final GtfsTxtReader reader;
 
-        try(Stream<Path> files = Files.walk(getExtractedGtfsFile())) {
-            Stream<Path> matchedFile = files.filter(p -> p.getFileName().toString().equals("agency.txt"));
-            matchedFile.findFirst().ifPresent(p -> {
-                try(BufferedReader reader = new BufferedReader(new FileReader(p.toFile()))) {
-                    String line;
-                    boolean firstLine = true;
-
-                    while ((line = reader.readLine()) != null) {
-                        if(firstLine) {
-                            firstLine = false;
-                            continue;
-                        }
-                        if (line.isBlank()) continue;
-
-                        String[] colsValues = line.split(",", -1);
-
-                        colsValues = Arrays.stream(colsValues).map(c -> c.replace("\"", ""))
-                                .toArray(String[]::new);
-
-                        String agencyId = colsValues[0];
-                        String agencyName = colsValues[1];
-                        String agencyUrlStr = colsValues[2];
-                        String agencyTimezone = colsValues[3];
-                        String agencyLang = colsValues[4];
-                        URL agencyUrl;
-
-                        try {
-                            if (agencyUrlStr != null && !agencyUrlStr.isBlank()) {
-                                agencyUrl = new URI(agencyUrlStr).toURL();
-                                agencies.add(Agency
-                                        .builder()
-                                        .agencyId(agencyId)
-                                        .agencyName(agencyName)
-                                        .agencyUrl(agencyUrl)
-                                        .agencyTimezone(agencyTimezone)
-                                        .agencyLang(agencyLang)
-                                        .build(
-                                ));
-                            }
-                        } catch (URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            return agencies;
-        } catch (IOException e) {
-            throw new RuntimeException("Arquivo agency.txt não encontrado");
-        }
+    public TxtParser(GtfsTxtReader reader) {
+        this.reader = reader;
     }
 
-    private Path getExtractedGtfsFile() {
-        try (Stream<Path> stream = Files.list(path)) {
-            Path file = stream
-                    .filter(p -> p.getFileName().toString().endsWith("_extracted"))
-                    .findFirst()
-                    .orElse(null);
+    public List<Agency> toAgency() {
+        return reader.parse("agency.txt", cols -> {
+            String agencyId = cols[0];
+            String agencyName = cols[1];
+            String agencyUrlStr = cols[2];
+            String agencyTimezone = cols[3];
+            String agencyLang = cols[4];
 
-            if(file != null) {
-                return file;
-            } else {
-                throw new RuntimeException("Nenhum arquivo de GTFS extraído encontrado");
+            if (agencyUrlStr == null || agencyUrlStr.isBlank()) {
+                return null;
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao entrar tentar encontrar o arquivo");
+
+            try {
+                URL agencyUrl = new URI(agencyUrlStr).toURL();
+                return Agency.builder()
+                        .agencyId(agencyId)
+                        .agencyName(agencyName)
+                        .agencyUrl(agencyUrl)
+                        .agencyTimezone(agencyTimezone)
+                        .agencyLang(agencyLang)
+                        .build();
+            } catch (URISyntaxException | MalformedURLException e) {
+                throw new RuntimeException(e);
             }
+        });
+    }
+
+    public List<Calendar> toCalendar() {
+        return reader.parse("calendar.txt", cols -> {
+            String serviceId = cols[0];
+            boolean monday = Boolean.parseBoolean(cols[1]);
+            boolean tuesday = Boolean.parseBoolean(cols[2]);
+            boolean wednesday = Boolean.parseBoolean(cols[3]);
+            boolean thursday = Boolean.parseBoolean(cols[4]);
+            boolean friday = Boolean.parseBoolean(cols[5]);
+            boolean saturday = Boolean.parseBoolean(cols[6]);
+            boolean sunday = Boolean.parseBoolean(cols[7]);
+            String startDateStr = cols[8];
+            String endDateStr = cols[9];
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+            return Calendar.builder()
+                    .serviceId(serviceId)
+                    .monday(monday)
+                    .tuesday(tuesday)
+                    .wednesday(wednesday)
+                    .thursday(thursday)
+                    .friday(friday)
+                    .saturday(saturday)
+                    .sunday(sunday)
+                    .startDate(LocalDate.parse(startDateStr, formatter))
+                    .endDate(LocalDate.parse(endDateStr, formatter))
+                    .build();
+        });
+    }
+
+    public List<FareAttributes> toFareAttributes() {
+        return reader.parse("fare_attributes.txt", cols -> {
+            String fareId = cols[0];
+            String priceStr = cols[1];
+            String currencyType = cols[2];
+            String paymentMethodStr = cols[3];
+            String transfersStr = cols[4];
+            String transferDurationStr = cols[5];
+
+            return FareAttributes.builder()
+                    .fareId(fareId)
+                    .price(new BigDecimal(priceStr))
+                    .currencyType(currencyType)
+                    .paymentMethod(Integer.parseInt(paymentMethodStr))
+                    .transfers(transfersStr != null && !transfersStr.isBlank() ? Integer.parseInt(transfersStr) : null)
+                    .transferDuration(transferDurationStr != null && !transferDurationStr.isBlank() ?
+                            Integer.parseInt(transferDurationStr) : null)
+                    .build();
+        });
+    }
+
+    public List<FareRules> toFareRules() {
+        return reader.parse("fare_rules.txt", cols -> {
+            String fareId = cols[0];
+            String routeId = cols[1];
+            String originId = cols[2];
+            String destinationId = cols[3];
+            String containsId = cols[4];
+
+            return FareRules.builder()
+                    .fareId(fareId)
+                    .routeId(routeId)
+                    .originId(originId != null && !originId.isBlank() ? originId : null)
+                    .destinationId(destinationId != null && !destinationId.isBlank() ? destinationId : null)
+                    .containsId(containsId != null && !containsId.isBlank() ? containsId : null)
+                    .build();
+        });
+    }
+
+    public List<Frequencies> toFrequencies() {
+        return reader.parse("frequencies.txt", cols -> {
+            String tripId = cols[0];
+            String startTime = cols[1];
+            String endTime = cols[2];
+            String headwaySecsStr = cols[3];
+
+            return Frequencies.builder()
+                    .tripId(tripId)
+                    .startTime(LocalTime.parse(startTime))
+                    .endTime(LocalTime.parse(endTime))
+                    .headwaySecs(Integer.parseInt(headwaySecsStr))
+                    .build();
+        });
+    }
+
+    public List<Routes> toRoutes() {
+        return reader.parse("routes.txt", cols -> {
+            String routeId = cols[0];
+            String agencyId = cols[1];
+            String routeShortName = cols[2];
+            String routeLongName = cols[3];
+            String routeTypeStr = cols[4];
+            String routeColor = cols[5];
+            String routeTextColor = cols[6];
+
+            return Routes.builder()
+                    .routeId(routeId)
+                    .agencyId(agencyId)
+                    .routeShortName(routeShortName)
+                    .routeLongName(routeLongName)
+                    .routeType(routeTypeStr)
+                    .routeColor(routeColor)
+                    .routeTextColor(routeTextColor)
+                    .build();
+        });
+    }
+
+    public List<Shapes> toShapes() {
+        return reader.parse("shapes.txt", cols -> {
+            String shapeId = cols[0];
+            String latStr = cols[1];
+            String lonStr = cols[2];
+            String sequenceStr = cols[3];
+            String distTraveledStr = cols[3];
+
+            return Shapes.builder()
+                    .shapeId(shapeId)
+                    .lat(Double.parseDouble(latStr))
+                    .lon(Double.parseDouble(lonStr))
+                    .sequence(Integer.parseInt(sequenceStr))
+                    .distTraveled(Double.parseDouble(distTraveledStr))
+                    .build();
+        });
+    }
+
+    public List<Stops> toStops() {
+        return reader.parse("stops.txt", cols -> {
+            String stopId = cols[0];
+            String stopName = cols[1];
+            String stopDesc = cols[2];
+            String latStr = cols[3];
+            String lonStr = cols[4];
+
+            return Stops.builder()
+                    .stopId(stopId)
+                    .stopName(stopName)
+                    .stopDesc(stopDesc)
+                    .stopLat(Double.parseDouble(latStr))
+                    .stopLon(Double.parseDouble(lonStr))
+                    .build();
+        });
+    }
+
+    public List<StopTimes> toStopTimes() {
+        return reader.parse("stop_times.txt", cols -> {
+            String tripId = cols[0];
+            String arrivalTimeStr = Integer.parseInt(cols[1].substring(0, 2)) > 24 ? cols[1] : "00:00:00";
+            String departureTimeStr = Integer.parseInt(cols[2].substring(0, 2)) > 24 ? cols[2] : "00:00:00";
+            String stopId = cols[3];
+            String stopSequenceStr = cols[4];
+
+            return StopTimes.builder()
+                    .tripId(tripId)
+                    .arrivalTime(LocalTime.parse(arrivalTimeStr))
+                    .departureTime(LocalTime.parse(departureTimeStr))
+                    .stopId(stopId)
+                    .stopSequence(Integer.parseInt(stopSequenceStr))
+                    .build();
+        });
+    }
+
+    public List<Trips> toTrips() {
+        return reader.parse("trips.txt", cols -> {
+            String routeId = cols[0];
+            String serviceId = cols[1];
+            String tripId = cols[2];
+            String tripHeadsign = cols[3];
+            String directionIdStr = cols[4];
+            String shapeId = cols[5];
+
+            return Trips.builder()
+                    .routeId(routeId)
+                    .serviceId(serviceId)
+                    .tripId(tripId)
+                    .tripHeadsign(tripHeadsign)
+                    .directionId(Integer.parseInt(directionIdStr))
+                    .shapeId(shapeId)
+                    .build();
+        });
     }
 }

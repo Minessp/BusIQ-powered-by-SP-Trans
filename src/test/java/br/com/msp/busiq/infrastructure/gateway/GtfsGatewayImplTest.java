@@ -49,19 +49,19 @@ class GtfsGatewayImplTest {
 
     @Test
     void downloadGtfsSuccess() {
-        assertTrue(Files.exists(gtfsGateway.download()));
+        assertTrue(Files.exists(gtfsGateway.download()), "Deve existir o arquivo GTFS");
     }
 
     @Test
     void extractGtfsSuccess() {
         gtfsGateway.download();
-        assertTrue(Files.exists(gtfsGateway.extract()));
+        assertTrue(Files.exists(gtfsGateway.extract()), "Deve existe o arquivo GTFS extraído");
     }
 
     @Test
     void extractGtfsErrorExpected() {
         assertThrows(RuntimeException.class, () -> {
             gtfsGateway.extract();
-        });
+        }, "Deve lançar exceção ao tentar extrair sem ter baixado o arquivo");
     }
 }

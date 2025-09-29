@@ -49,7 +49,10 @@ public record Frequencies(String tripId,
         }
 
         public Frequencies build() {
-            return new Frequencies(tripId, startTime, endTime, headwaySecs);
+            return new Frequencies(tripId,
+                                   startTime,
+                                   endTime,
+                                   headwaySecs);
         }
     }
 }
