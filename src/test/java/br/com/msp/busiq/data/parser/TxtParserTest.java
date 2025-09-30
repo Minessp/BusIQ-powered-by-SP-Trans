@@ -3,7 +3,7 @@ package br.com.msp.busiq.data.parser;
 import br.com.msp.busiq.core.domain.*;
 import br.com.msp.busiq.core.domain.fare.FareAttributes;
 import br.com.msp.busiq.core.domain.fare.FareRules;
-import br.com.msp.busiq.core.gateway.GtfsGateway;
+import br.com.msp.busiq.core.gateway.gtfs.GtfsGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

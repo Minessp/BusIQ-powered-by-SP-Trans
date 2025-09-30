@@ -1,6 +1,6 @@
-package br.com.msp.busiq.infrastructure.gateway;
+package br.com.msp.busiq.infrastructure.gateway.gtfs;
 
-import br.com.msp.busiq.core.gateway.GtfsGateway;
+import br.com.msp.busiq.core.gateway.gtfs.GtfsGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

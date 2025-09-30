@@ -1,4 +1,4 @@
-package br.com.msp.busiq.core.gateway;
+package br.com.msp.busiq.core.gateway.gtfs;
 
 import java.nio.file.Path;
 

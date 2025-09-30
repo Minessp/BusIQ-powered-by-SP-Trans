@@ -1,6 +1,6 @@
-package br.com.msp.busiq.core.usecases;
+package br.com.msp.busiq.core.usecases.gtfs;
 
-import br.com.msp.busiq.core.gateway.GtfsGateway;
+import br.com.msp.busiq.core.gateway.gtfs.GtfsGateway;
 
 public class DownloadGtfsInteractor implements DownloadGtfsCase {
     private final GtfsGateway gtfsGateway;

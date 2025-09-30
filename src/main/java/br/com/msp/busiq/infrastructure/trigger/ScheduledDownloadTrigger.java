@@ -1,7 +1,7 @@
 package br.com.msp.busiq.infrastructure.trigger;
 
-import br.com.msp.busiq.core.usecases.DownloadGtfsCase;
-import br.com.msp.busiq.core.usecases.ExtractGtfsCase;
+import br.com.msp.busiq.core.usecases.gtfs.DownloadGtfsCase;
+import br.com.msp.busiq.core.usecases.gtfs.ExtractGtfsCase;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

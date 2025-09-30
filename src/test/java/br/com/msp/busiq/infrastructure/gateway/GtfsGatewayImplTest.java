@@ -1,6 +1,6 @@
 package br.com.msp.busiq.infrastructure.gateway;
 
-import br.com.msp.busiq.core.gateway.GtfsGateway;
+import br.com.msp.busiq.core.gateway.gtfs.GtfsGateway;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
