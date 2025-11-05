@@ -1,9 +1,10 @@
-package br.com.msp.busiq.infrastructure.controllers;
+package br.com.msp.busiq.infrastructure.controllers.agency;
 
 import br.com.msp.busiq.core.domain.Agency;
 import br.com.msp.busiq.core.usecases.agency.GetAgenciesCase;
 import br.com.msp.busiq.core.usecases.agency.GetAgencyByIdCase;
 import br.com.msp.busiq.core.usecases.agency.GetAgencyByNameCase;
+import br.com.msp.busiq.infrastructure.controllers.AgencyController;
 import br.com.msp.busiq.infrastructure.dtos.AgencyResponse;
 import br.com.msp.busiq.infrastructure.exceptions.GlobalExceptionHandler;
 import br.com.msp.busiq.infrastructure.mappers.agency.AgencyDtoMapper;
