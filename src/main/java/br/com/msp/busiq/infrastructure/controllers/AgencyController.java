@@ -26,17 +26,17 @@ public class AgencyController {
     }
 
     @GetMapping
-    public @ResponseBody List<AgencyResponse> getAgencies() {
+    public List<AgencyResponse> getAgencies() {
         return getAgenciesCase.execute().stream().map(agencyDTOMapper::toResponse).toList();
     }
 
     @GetMapping("/id/{id}")
-    public @ResponseBody AgencyResponse getAgency(@PathVariable String id) {
+    public AgencyResponse getAgencyById(@PathVariable String id) {
         return agencyDTOMapper.toResponse(getAgencyByIdCase.execute(id));
     }
 
     @GetMapping("/name/{name}")
-    public @ResponseBody AgencyResponse getAgencyByName(@PathVariable String name) {
+    public AgencyResponse getAgencyByName(@PathVariable String name) {
         return agencyDTOMapper.toResponse(getAgencyByNameCase.execute(name));
     }
 }

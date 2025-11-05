@@ -114,11 +114,11 @@ class AgencyControllerTest {
     }
 
     @Test
-    void returnExactlyOneAgencyByIdWithNotFoundStatus() throws Exception {
+    void returnExactlyOneAgencyByIdWithBadRequestStatus() throws Exception {
         when(getAgencyByIdCase.execute("2")).thenThrow(new IllegalArgumentException("Agência não encontrada"));
 
         mockMvc.perform(get("/agencies/id/2"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

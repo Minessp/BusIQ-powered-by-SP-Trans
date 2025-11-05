@@ -27,12 +27,12 @@ public class AgencyConfig {
     }
 
     @Bean
-    AgencyGateway agencyGateway(AgencyRepository agencyRepository, AgencyDtoMapper agencyDTOMapper) {
-        return new AgencyGatewayImpl(agencyRepository, agencyDTOMapper);
+    AgencyGateway agencyGateway(AgencyRepository agencyRepository, AgencyDtoMapper agencyDtoMapper) {
+        return new AgencyGatewayImpl(agencyRepository, agencyDtoMapper);
     }
 
     @Bean
-    AgencyDtoMapper agencyDTOMapper() {
+    AgencyDtoMapper agencyDtoMapper() {
         return new AgencyDtoMapper();
     }
 }

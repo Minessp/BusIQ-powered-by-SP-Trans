@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> notFoundExceptions(RuntimeException e) {
-        ApiError apiError = apiErrorMethod(e, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiError> badRequestExceptions(RuntimeException e) {
+        ApiError apiError = apiErrorMethod(e, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }
