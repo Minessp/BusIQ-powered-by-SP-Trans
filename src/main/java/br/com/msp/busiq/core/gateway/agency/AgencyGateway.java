@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface AgencyGateway {
     List<Agency> getAllAgencies();
+
+    Agency getAgencyById(String agencyId);
+
+    Agency getAgencyByName(String agencyName);
 }
