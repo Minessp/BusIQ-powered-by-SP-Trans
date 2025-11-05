@@ -27,8 +27,8 @@ public class AgencyGatewayImpl implements AgencyGateway {
             throw new IllegalArgumentException("Agency ID não pode ser nulo");
         }
 
-        return agencyDTOMapper.toDomain(agencyRepository.findById(agencyId).orElseThrow(
-                () -> new IllegalArgumentException("Agência não encontrada")));
+        return agencyRepository.findById(agencyId).map(agencyDTOMapper::toDomain)
+                .orElseThrow(() -> new IllegalArgumentException("Agência não encontrada"));
     }
 
     @Override
