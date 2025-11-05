@@ -40,7 +40,7 @@ class AgencyControllerTest {
     private GetAgencyByNameCase getAgencyByNameCase;
 
     @MockitoBean
-    private AgencyDtoMapper agencyDTOMapper;
+    private AgencyDtoMapper agencyDtoMapper;
 
     Agency agency1 = Agency.builder()
             .agencyId("1")
@@ -82,8 +82,8 @@ class AgencyControllerTest {
                 .agencyLang("pt/br")
                 .build();
 
-        when(agencyDTOMapper.toResponse(agency1)).thenReturn(response1);
-        when(agencyDTOMapper.toResponse(agency2)).thenReturn(response2);
+        when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
+        when(agencyDtoMapper.toResponse(agency2)).thenReturn(response2);
 
         mockMvc.perform(get("/agencies"))
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ class AgencyControllerTest {
     @Test
     void returnExactlyOneAgencyByIdWithCorrectTypeAndValuesSuccess() throws Exception {
         when(getAgencyByIdCase.execute("1")).thenReturn(agency1);
-        when(agencyDTOMapper.toResponse(agency1)).thenReturn(response1);
+        when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
 
         mockMvc.perform(get("/agencies/id/1"))
                 .andExpect(status().isOk())
@@ -124,7 +124,7 @@ class AgencyControllerTest {
     @Test
     void returnExactlyOneAgencyByNameWithCorrectTypeAndValuesSuccess() throws Exception {
         when(getAgencyByNameCase.execute("Agencia 1")).thenReturn(agency1);
-        when(agencyDTOMapper.toResponse(agency1)).thenReturn(response1);
+        when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
 
         mockMvc.perform(get("/agencies/name/Agencia 1"))
                 .andExpect(status().isOk())

@@ -15,28 +15,28 @@ public class AgencyController {
     private final GetAgenciesCase getAgenciesCase;
     private final GetAgencyByIdCase getAgencyByIdCase;
     private final GetAgencyByNameCase getAgencyByNameCase;
-    private final AgencyDtoMapper agencyDTOMapper;
+    private final AgencyDtoMapper agencyDtoMapper;
 
     public AgencyController(GetAgenciesCase getAgenciesCase, GetAgencyByIdCase getAgencyByIdCase,
-                            GetAgencyByNameCase getAgencyByNameCase, AgencyDtoMapper agencyDTOMapper) {
+                            GetAgencyByNameCase getAgencyByNameCase, AgencyDtoMapper agencyDtoMapper) {
         this.getAgenciesCase = getAgenciesCase;
         this.getAgencyByIdCase = getAgencyByIdCase;
         this.getAgencyByNameCase = getAgencyByNameCase;
-        this.agencyDTOMapper = agencyDTOMapper;
+        this.agencyDtoMapper = agencyDtoMapper;
     }
 
     @GetMapping
     public List<AgencyResponse> getAgencies() {
-        return getAgenciesCase.execute().stream().map(agencyDTOMapper::toResponse).toList();
+        return getAgenciesCase.execute().stream().map(agencyDtoMapper::toResponse).toList();
     }
 
     @GetMapping("/id/{id}")
     public AgencyResponse getAgencyById(@PathVariable String id) {
-        return agencyDTOMapper.toResponse(getAgencyByIdCase.execute(id));
+        return agencyDtoMapper.toResponse(getAgencyByIdCase.execute(id));
     }
 
     @GetMapping("/name/{name}")
     public AgencyResponse getAgencyByName(@PathVariable String name) {
-        return agencyDTOMapper.toResponse(getAgencyByNameCase.execute(name));
+        return agencyDtoMapper.toResponse(getAgencyByNameCase.execute(name));
     }
 }

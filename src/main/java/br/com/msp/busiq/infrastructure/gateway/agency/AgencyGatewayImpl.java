@@ -9,16 +9,16 @@ import java.util.List;
 
 public class AgencyGatewayImpl implements AgencyGateway {
     private final AgencyRepository agencyRepository;
-    private final AgencyDtoMapper agencyDTOMapper;
+    private final AgencyDtoMapper agencyDtoMapper;
 
     public AgencyGatewayImpl(AgencyRepository agencyRepository, AgencyDtoMapper agencyDTOMapper) {
         this.agencyRepository = agencyRepository;
-        this.agencyDTOMapper = agencyDTOMapper;
+        this.agencyDtoMapper = agencyDTOMapper;
     }
 
     @Override
     public List<Agency> getAllAgencies() {
-        return agencyRepository.findAll().stream().map(agencyDTOMapper::toDomain).toList();
+        return agencyRepository.findAll().stream().map(agencyDtoMapper::toDomain).toList();
     }
 
     @Override
@@ -27,13 +27,13 @@ public class AgencyGatewayImpl implements AgencyGateway {
             throw new IllegalArgumentException("Agency ID não pode ser nulo");
         }
 
-        return agencyRepository.findById(agencyId).map(agencyDTOMapper::toDomain)
+        return agencyRepository.findById(agencyId).map(agencyDtoMapper::toDomain)
                 .orElseThrow(() -> new IllegalArgumentException("Agência não encontrada"));
     }
 
     @Override
     public Agency getAgencyByName(String agencyName) {
-        return agencyRepository.findByAgencyName(agencyName).map(agencyDTOMapper::toDomain)
+        return agencyRepository.findByAgencyName(agencyName).map(agencyDtoMapper::toDomain)
                 .orElseThrow(() -> new IllegalArgumentException("Agência não encontrada"));
     }
 }
