@@ -33,8 +33,7 @@ public class AgencyGatewayImpl implements AgencyGateway {
 
     @Override
     public Agency getAgencyByName(String agencyName) {
-        return agencyDTOMapper.toDomain(agencyRepository.findByAgencyName(agencyName)
-                .orElseThrow(
-                        () -> new IllegalArgumentException("Agência não encontrada")));
+        return agencyRepository.findByAgencyName(agencyName).map(agencyDTOMapper::toDomain)
+                .orElseThrow(() -> new IllegalArgumentException("Agência não encontrada"));
     }
 }
