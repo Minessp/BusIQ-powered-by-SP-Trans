@@ -137,4 +137,126 @@ public class RoutesControllerTest {
         mockMvc.perform(get("/routes/id/1"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void shouldReturnRoutesByAgencyIdWithSuccess() throws Exception {
+        Routes routes2 = Routes.builder()
+                .routeId("1012-21")
+                .agencyId("1")
+                .routeShortName("1012-21")
+                .routeLongName("Term. Jd. Britânia - Jd. Rosinha")
+                .routeType("3")
+                .routeColor("509E2F")
+                .routeTextColor("FFFFFF")
+                .build();
+
+        when(getRoutesByAgencyId.execute("1")).thenReturn(List.of(routes1, routes2));
+
+        RoutesResponse response2 = RoutesResponse.builder()
+                .routeId("1012-21")
+                .agencyId("1")
+                .routeShortName("1012-21")
+                .routeLongName("Term. Jd. Britânia - Jd. Rosinha")
+                .routeType("3")
+                .routeColor("509E2F")
+                .routeTextColor("FFFFFF")
+                .build();
+
+        when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
+        when(routesDtoMapper.toResponse(routes2)).thenReturn(response2);
+
+        mockMvc.perform(get("/routes/agencyId/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].routeId").value("1012-10"))
+                .andExpect(jsonPath("$[0].agencyId").value("1"))
+                .andExpect(jsonPath("$[0].routeShortName").value("1012-10"))
+                .andExpect(jsonPath("$[0].routeLongName").value("Term. Jd. Britania - Jd. Monte Belo"))
+                .andExpect(jsonPath("$[0].routeType").value("3"))
+                .andExpect(jsonPath("$[0].routeColor").value("509E2F"))
+                .andExpect(jsonPath("$[0].routeTextColor").value("FFFFFF"))
+                .andExpect(jsonPath("$[1].routeId").value("1012-21"))
+                .andExpect(jsonPath("$[1].agencyId").value("1"))
+                .andExpect(jsonPath("$[1].routeShortName").value("1012-21"))
+                .andExpect(jsonPath("$[1].routeLongName").value("Term. Jd. Britânia - Jd. Rosinha"))
+                .andExpect(jsonPath("$[1].routeType").value("3"))
+                .andExpect(jsonPath("$[1].routeColor").value("509E2F"))
+                .andExpect(jsonPath("$[1].routeTextColor").value("FFFFFF"));
+    }
+
+    @Test
+    void shouldReturnRoutesByRouteShortNameWithSuccess() throws Exception {
+        when(getRouteByRouteShortNameCase.execute("1012-10")).thenReturn(routes1);
+        when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
+
+        mockMvc.perform(get("/routes/routeShortName/1012-10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("routeId").value("1012-10"))
+                .andExpect(jsonPath("agencyId").value("1"))
+                .andExpect(jsonPath("routeShortName").value("1012-10"))
+                .andExpect(jsonPath("routeLongName").value("Term. Jd. Britania - Jd. Monte Belo"))
+                .andExpect(jsonPath("routeType").value("3"))
+                .andExpect(jsonPath("routeColor").value("509E2F"))
+                .andExpect(jsonPath("routeTextColor").value("FFFFFF"));
+    }
+
+    @Test
+    void shouldReturnRoutesByContainsRouteLongNameWithSuccess() throws Exception {
+        Routes routes2 = Routes.builder()
+                .routeId("1012-21")
+                .agencyId("1")
+                .routeShortName("1012-21")
+                .routeLongName("Term. Jd. Britânia - Jd. Rosinha")
+                .routeType("3")
+                .routeColor("509E2F")
+                .routeTextColor("FFFFFF")
+                .build();
+
+        when(getRoutesByContainsRouteLongName.execute("Term. Jd. Britania")).thenReturn(List.of(routes1, routes2));
+
+        RoutesResponse response2 = RoutesResponse.builder()
+                .routeId("1012-21")
+                .agencyId("1")
+                .routeShortName("1012-21")
+                .routeLongName("Term. Jd. Britânia - Jd. Rosinha")
+                .routeType("3")
+                .routeColor("509E2F")
+                .routeTextColor("FFFFFF")
+                .build();
+
+        when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
+        when(routesDtoMapper.toResponse(routes2)).thenReturn(response2);
+
+        mockMvc.perform(get("/routes/routeLongName?q=Term. Jd. Britania"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].routeId").value("1012-10"))
+                .andExpect(jsonPath("$[0].agencyId").value("1"))
+                .andExpect(jsonPath("$[0].routeShortName").value("1012-10"))
+                .andExpect(jsonPath("$[0].routeLongName").value("Term. Jd. Britania - Jd. Monte Belo"))
+                .andExpect(jsonPath("$[0].routeType").value("3"))
+                .andExpect(jsonPath("$[0].routeColor").value("509E2F"))
+                .andExpect(jsonPath("$[0].routeTextColor").value("FFFFFF"))
+                .andExpect(jsonPath("$[1].routeId").value("1012-21"))
+                .andExpect(jsonPath("$[1].agencyId").value("1"))
+                .andExpect(jsonPath("$[1].routeShortName").value("1012-21"))
+                .andExpect(jsonPath("$[1].routeLongName").value("Term. Jd. Britânia - Jd. Rosinha"))
+                .andExpect(jsonPath("$[1].routeType").value("3"))
+                .andExpect(jsonPath("$[1].routeColor").value("509E2F"))
+                .andExpect(jsonPath("$[1].routeTextColor").value("FFFFFF"));
+    }
+
+    @Test
+    void shouldReturnRoutesByRouteColorWithSuccess() throws Exception {
+        when(getRoutesByRouteColorCase.execute("509E2F")).thenReturn(List.of(routes1));
+        when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
+
+        mockMvc.perform(get("/routes/routeColor/509E2F"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].routeId").value("1012-10"))
+                .andExpect(jsonPath("$[0].agencyId").value("1"))
+                .andExpect(jsonPath("$[0].routeShortName").value("1012-10"))
+                .andExpect(jsonPath("$[0].routeLongName").value("Term. Jd. Britania - Jd. Monte Belo"))
+                .andExpect(jsonPath("$[0].routeType").value("3"))
+                .andExpect(jsonPath("$[0].routeColor").value("509E2F"))
+                .andExpect(jsonPath("$[0].routeTextColor").value("FFFFFF"));
+    }
 }
