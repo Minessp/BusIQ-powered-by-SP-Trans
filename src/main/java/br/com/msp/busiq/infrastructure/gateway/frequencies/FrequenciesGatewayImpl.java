@@ -22,12 +22,11 @@ public class FrequenciesGatewayImpl implements FrequenciesGateway {
     }
 
     @Override
-    public Frequencies getFrequencyById(String tripId) {
+    public List<Frequencies> getFrequenciesById(String tripId) {
         if (tripId == null) {
             throw new IllegalArgumentException("Trip ID não pode ser nulo");
         }
 
-        return frequenciesRepository.findById(tripId).map(frequenciesDtoMapper::toDomain).orElseThrow(
-                () -> new IllegalArgumentException("Frequência não encontrada"));
+        return frequenciesRepository.findAllByTripId(tripId).stream().map(frequenciesDtoMapper::toDomain).toList();
     }
 }

@@ -2,7 +2,7 @@ package br.com.msp.busiq.infrastructure.controllers.frequencies;
 
 import br.com.msp.busiq.core.domain.Frequencies;
 import br.com.msp.busiq.core.usecases.frequencies.GetFrequenciesCase;
-import br.com.msp.busiq.core.usecases.frequencies.GetFrequencyByIdCase;
+import br.com.msp.busiq.core.usecases.frequencies.GetFrequenciesByIdCase;
 import br.com.msp.busiq.infrastructure.controllers.FrequenciesController;
 import br.com.msp.busiq.infrastructure.dtos.FrequenciesResponse;
 import br.com.msp.busiq.infrastructure.exceptions.GlobalExceptionHandler;
@@ -32,7 +32,7 @@ public class FrequenciesControllerTest {
     private GetFrequenciesCase getFrequenciesCase;
 
     @MockitoBean
-    private GetFrequencyByIdCase getFrequencyByIdCase;
+    private GetFrequenciesByIdCase getFrequenciesByIdCase;
 
     @MockitoBean
     private FrequenciesDtoMapper frequenciesDtoMapper;
@@ -85,21 +85,41 @@ public class FrequenciesControllerTest {
     }
 
     @Test
-    void shouldReturnExactlyOneFrequencyByIdWithCorrectTypeAndValuesSuccess() throws Exception {
-        when(getFrequencyByIdCase.execute("1")).thenReturn(frequencies1);
+    void shouldReturnFrequenciesByIdWithCorrectTypeAndValuesSuccess() throws Exception {
+        Frequencies frequencies2 = Frequencies.builder()
+                .tripId("2")
+                .startTime(LocalTime.of(8, 20, 30))
+                .endTime(LocalTime.of(8, 25, 0))
+                .headwaySecs(600)
+                .build();
+
+        when(getFrequenciesByIdCase.execute("1")).thenReturn(List.of(frequencies1, frequencies2));
+
+        FrequenciesResponse response2 = FrequenciesResponse.builder()
+                .tripId("2")
+                .startTime(LocalTime.of(8, 20, 30))
+                .endTime(LocalTime.of(8, 25, 0))
+                .headwaySecs(600)
+                .build();
+
         when(frequenciesDtoMapper.toResponse(frequencies1)).thenReturn(response1);
+        when(frequenciesDtoMapper.toResponse(frequencies2)).thenReturn(response2);
 
         mockMvc.perform(get("/frequencies/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("tripId").value("1"))
-                .andExpect(jsonPath("startTime").value("08:15:30"))
-                .andExpect(jsonPath("endTime").value("08:20:00"))
-                .andExpect(jsonPath("headwaySecs").value(600));
+                .andExpect(jsonPath("$[0].tripId").value("1"))
+                .andExpect(jsonPath("$[0].startTime").value("08:15:30"))
+                .andExpect(jsonPath("$[0].endTime").value("08:20:00"))
+                .andExpect(jsonPath("$[0].headwaySecs").value(600))
+                .andExpect(jsonPath("$[1].tripId").value("2"))
+                .andExpect(jsonPath("$[1].startTime").value("08:20:30"))
+                .andExpect(jsonPath("$[1].endTime").value("08:25:00"))
+                .andExpect(jsonPath("$[1].headwaySecs").value(600));
     }
 
     @Test
     void shouldReturnBadRequestStatusWhenTripIdIsInvalid() throws Exception {
-        when(getFrequencyByIdCase.execute("1")).thenThrow(new IllegalArgumentException("Invalid trip ID"));
+        when(getFrequenciesByIdCase.execute("1")).thenThrow(new IllegalArgumentException("Invalid trip ID"));
 
         mockMvc.perform(get("/frequencies/1"))
                 .andExpect(status().isBadRequest());

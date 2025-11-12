@@ -1,7 +1,7 @@
 package br.com.msp.busiq.infrastructure.controllers;
 
 import br.com.msp.busiq.core.usecases.frequencies.GetFrequenciesCase;
-import br.com.msp.busiq.core.usecases.frequencies.GetFrequencyByIdCase;
+import br.com.msp.busiq.core.usecases.frequencies.GetFrequenciesByIdCase;
 import br.com.msp.busiq.infrastructure.dtos.FrequenciesResponse;
 import br.com.msp.busiq.infrastructure.mappers.frequencies.FrequenciesDtoMapper;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,13 @@ import java.util.List;
 @RequestMapping("/frequencies")
 public class FrequenciesController {
     private final GetFrequenciesCase getFrequenciesCase;
-    private final GetFrequencyByIdCase getFrequencyByIdCase;
+    private final GetFrequenciesByIdCase getFrequenciesByIdCase;
     private final FrequenciesDtoMapper frequenciesDtoMapper;
 
-    public FrequenciesController(GetFrequenciesCase getFrequenciesCase, GetFrequencyByIdCase getFrequencyByIdCase,
+    public FrequenciesController(GetFrequenciesCase getFrequenciesCase, GetFrequenciesByIdCase getFrequenciesByIdCase,
                                  FrequenciesDtoMapper frequenciesDtoMapper) {
         this.getFrequenciesCase = getFrequenciesCase;
-        this.getFrequencyByIdCase = getFrequencyByIdCase;
+        this.getFrequenciesByIdCase = getFrequenciesByIdCase;
         this.frequenciesDtoMapper = frequenciesDtoMapper;
     }
 
@@ -28,7 +28,7 @@ public class FrequenciesController {
     }
 
     @GetMapping("/{tripId}")
-    public FrequenciesResponse getAllFrequenciesFromTripId(@PathVariable String tripId) {
-        return frequenciesDtoMapper.toResponse(getFrequencyByIdCase.execute(tripId));
+    public List<FrequenciesResponse> getAllFrequenciesFromTripId(@PathVariable String tripId) {
+        return getFrequenciesByIdCase.execute(tripId).stream().map(frequenciesDtoMapper::toResponse).toList();
     }
 }

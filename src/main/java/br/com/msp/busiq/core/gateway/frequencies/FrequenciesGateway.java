@@ -7,5 +7,5 @@ import java.util.List;
 public interface FrequenciesGateway {
     List<Frequencies> getAllFrequencies();
 
-    Frequencies getFrequencyById(String tripId);
+    List<Frequencies> getFrequenciesById(String tripId);
 }

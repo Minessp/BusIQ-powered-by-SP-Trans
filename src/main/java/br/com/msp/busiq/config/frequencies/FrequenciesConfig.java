@@ -17,8 +17,8 @@ public class FrequenciesConfig {
     }
 
     @Bean
-    GetFrequencyByIdCase getFrequencyByIdCase(FrequenciesGateway frequenciesGateway) {
-        return new GetFrequencyByIdInteractor(frequenciesGateway);
+    GetFrequenciesByIdCase getFrequencyByIdCase(FrequenciesGateway frequenciesGateway) {
+        return new GetFrequenciesByIdInteractor(frequenciesGateway);
     }
 
     @Bean
