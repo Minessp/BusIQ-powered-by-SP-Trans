@@ -31,13 +31,13 @@ public class ShapesController {
         return getShapesCase.execute().stream().map(shapesDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/shapeId/{shapeId}")
-    public List<ShapesResponse> getShapesByShapeId(@PathVariable String shapeId) {
+    @GetMapping("/shape-id/{shape-id}")
+    public List<ShapesResponse> getShapesByShapeId(@PathVariable("shape-id") String shapeId) {
         return getShapesByIdCase.execute(shapeId).stream().map(shapesDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/shapeIdAndSequence/{shapeId}")
-    public ShapesResponse getShapeByIdAndSequence(@PathVariable String shapeId,
+    @GetMapping("/shape-id-sequence/{shape-id}")
+    public ShapesResponse getShapeByIdAndSequence(@PathVariable("shape-id") String shapeId,
                                                   @RequestParam("sequence") int sequence) {
         return shapesDtoMapper.toResponse(getShapeByIdAndSequenceCase.execute(shapeId, sequence));
     }

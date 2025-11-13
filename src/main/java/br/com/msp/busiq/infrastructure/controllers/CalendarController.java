@@ -27,8 +27,8 @@ public class CalendarController {
         return getCalendarsCase.execute().stream().map(calendarDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/{serviceId}")
-    public CalendarResponse getCalendarByServiceId(@PathVariable String serviceId){
+    @GetMapping("/{service-id}")
+    public CalendarResponse getCalendarByServiceId(@PathVariable("service-id") String serviceId){
         return calendarDtoMapper.toResponse(getCalendarByServiceId.execute(serviceId));
     }
 }

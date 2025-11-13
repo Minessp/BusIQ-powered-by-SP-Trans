@@ -43,23 +43,23 @@ public class RoutesController {
         return routesDtoMapper.toResponse(getRouteByIdCase.execute(id));
     }
 
-    @GetMapping("/agencyId/{agencyId}")
-    public List<RoutesResponse> getRoutesByAgencyId(@PathVariable String agencyId) {
+    @GetMapping("/agency-id/{agency-id}")
+    public List<RoutesResponse> getRoutesByAgencyId(@PathVariable("agency-id") String agencyId) {
         return getRoutesByAgencyId.execute(agencyId).stream().map(routesDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/routeShortName/{routeShortName}")
-    public RoutesResponse getRouteByRouteShortName(@PathVariable String routeShortName){
+    @GetMapping("/route-short-name/{route-short-name}")
+    public RoutesResponse getRouteByRouteShortName(@PathVariable("route-short-name") String routeShortName){
         return routesDtoMapper.toResponse(getRouteByRouteShortNameCase.execute(routeShortName));
     }
 
-    @GetMapping("/routeLongName")
+    @GetMapping("/route-long-name")
     public List<RoutesResponse> findResultsRoutesByRouteLongName(@RequestParam("q") String query) {
         return getRoutesByContainsRouteLongName.execute(query).stream().map(routesDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/routeColor/{routeColor}")
-    public List<RoutesResponse> getRoutesByRouteColor(@PathVariable String routeColor) {
+    @GetMapping("/route-color/{route-color}")
+    public List<RoutesResponse> getRoutesByRouteColor(@PathVariable("route-color") String routeColor) {
         return getRoutesByRouteColorCase.execute(routeColor).stream().map(routesDtoMapper::toResponse).toList();
     }
 }

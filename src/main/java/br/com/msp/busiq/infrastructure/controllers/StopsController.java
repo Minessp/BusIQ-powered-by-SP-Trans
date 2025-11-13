@@ -30,12 +30,12 @@ public class StopsController {
         return getStopsCase.execute().stream().map(stopsDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/{stopId}")
-    public StopsResponse getStopById(@PathVariable String stopId) {
+    @GetMapping("/{stop-id}")
+    public StopsResponse getStopById(@PathVariable("stop-id") String stopId) {
         return stopsDtoMapper.toResponse(getStopByIdCase.execute(stopId));
     }
 
-    @GetMapping("/stopName")
+    @GetMapping("/stop-name")
     public List<StopsResponse> findResultsStopsByStopName(@RequestParam("q") String query) {
         return findResultsStopsByStopNameCase.execute(query).stream().map(stopsDtoMapper::toResponse).toList();
     }

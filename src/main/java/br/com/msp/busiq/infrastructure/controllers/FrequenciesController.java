@@ -27,8 +27,8 @@ public class FrequenciesController {
         return getFrequenciesCase.execute().stream().map(frequenciesDtoMapper::toResponse).toList();
     }
 
-    @GetMapping("/{tripId}")
-    public List<FrequenciesResponse> getAllFrequenciesFromTripId(@PathVariable String tripId) {
+    @GetMapping("/{trip-id}")
+    public List<FrequenciesResponse> getAllFrequenciesFromTripId(@PathVariable("trip-id") String tripId) {
         return getFrequenciesByIdCase.execute(tripId).stream().map(frequenciesDtoMapper::toResponse).toList();
     }
 }
