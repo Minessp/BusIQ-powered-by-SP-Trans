@@ -124,7 +124,7 @@ public class ShapesControllerTest {
         when(shapesDtoMapper.toResponse(shapes2)).thenReturn(response2);
         when(shapesDtoMapper.toResponse(shapes3)).thenReturn(response3);
 
-        mockMvc.perform(get("/shapes/shapeId/84609"))
+        mockMvc.perform(get("/shapes/shape-id/84609"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].shapeId").value("84609"))
                 .andExpect(jsonPath("$[1].shapeId").value("84609"))
@@ -135,7 +135,7 @@ public class ShapesControllerTest {
     void shouldReturnBadRequestStatusWhenShapeIdIsInvalid() throws Exception {
         when(getShapesByIdCase.execute("1")).thenThrow(new IllegalArgumentException("Invalid shape ID"));
 
-        mockMvc.perform(get("/shapes/shapeId/1"))
+        mockMvc.perform(get("/shapes/shape-id/1"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -144,7 +144,7 @@ public class ShapesControllerTest {
         when(getShapeByIdAndSequenceCase.execute("84609", 1)).thenReturn(shapes1);
         when(shapesDtoMapper.toResponse(shapes1)).thenReturn(response1);
 
-        mockMvc.perform(get("/shapes/shapeIdAndSequence/84609?sequence=1"))
+        mockMvc.perform(get("/shapes/shape-id-sequence/84609?sequence=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("shapeId").value("84609"))
                 .andExpect(jsonPath("lat").value(-21.3232))

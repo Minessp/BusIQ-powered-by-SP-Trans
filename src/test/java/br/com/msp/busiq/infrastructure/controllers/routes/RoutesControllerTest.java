@@ -165,7 +165,7 @@ public class RoutesControllerTest {
         when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
         when(routesDtoMapper.toResponse(routes2)).thenReturn(response2);
 
-        mockMvc.perform(get("/routes/agencyId/1"))
+        mockMvc.perform(get("/routes/agency-id/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].routeId").value("1012-10"))
                 .andExpect(jsonPath("$[0].agencyId").value("1"))
@@ -188,7 +188,7 @@ public class RoutesControllerTest {
         when(getRouteByRouteShortNameCase.execute("1012-10")).thenReturn(routes1);
         when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
 
-        mockMvc.perform(get("/routes/routeShortName/1012-10"))
+        mockMvc.perform(get("/routes/route-short-name/1012-10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("routeId").value("1012-10"))
                 .andExpect(jsonPath("agencyId").value("1"))
@@ -226,7 +226,7 @@ public class RoutesControllerTest {
         when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
         when(routesDtoMapper.toResponse(routes2)).thenReturn(response2);
 
-        mockMvc.perform(get("/routes/routeLongName?q=Term. Jd. Britania"))
+        mockMvc.perform(get("/routes/route-long-name?q=Term. Jd. Britania"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].routeId").value("1012-10"))
                 .andExpect(jsonPath("$[0].agencyId").value("1"))
@@ -249,7 +249,7 @@ public class RoutesControllerTest {
         when(getRoutesByRouteColorCase.execute("509E2F")).thenReturn(List.of(routes1));
         when(routesDtoMapper.toResponse(routes1)).thenReturn(response1);
 
-        mockMvc.perform(get("/routes/routeColor/509E2F"))
+        mockMvc.perform(get("/routes/route-color/509E2F"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].routeId").value("1012-10"))
                 .andExpect(jsonPath("$[0].agencyId").value("1"))

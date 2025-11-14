@@ -113,7 +113,7 @@ public class StopsControllerTest {
         when(findResultsStopsByStopNameCase.execute("Cl")).thenReturn(List.of(stops1));
         when(stopsDtoMapper.toResponse(stops1)).thenReturn(response1);
 
-        mockMvc.perform(get("/stops/stopName?q=Cl"))
+        mockMvc.perform(get("/stops/stop-name?q=Cl"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].stopId").value("18848"))
                 .andExpect(jsonPath("$[0].stopName").value("Clínicas"))
