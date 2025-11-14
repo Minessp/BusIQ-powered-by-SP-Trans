@@ -12,4 +12,6 @@ public interface TripsGateway {
     Trips getTripByTripId(String tripId);
 
     List<Trips> getTripsByTripHeadsign(String query);
+
+    void saveTripsData();
 }

@@ -12,10 +12,6 @@ public class RoutesEntity {
     @Column(name = "agency_id", length = 64)
     private String agencyId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_id", referencedColumnName = "agency_id", insertable = false, updatable = false)
-    private AgencyEntity agency;
-
     @Column(name = "route_short_name", length = 64)
     private String routeShortName;
 
@@ -33,11 +29,10 @@ public class RoutesEntity {
 
     public RoutesEntity() {}
 
-    public RoutesEntity(String routeId, String agencyId, AgencyEntity agency, String routeShortName,
+    public RoutesEntity(String routeId, String agencyId, String routeShortName,
                         String routeLongName, String routeType, String routeColor, String routeTextColor) {
         this.routeId = routeId;
         this.agencyId = agencyId;
-        this.agency = agency;
         this.routeShortName = routeShortName;
         this.routeLongName = routeLongName;
         this.routeType = routeType;
@@ -59,14 +54,6 @@ public class RoutesEntity {
 
     public void setAgencyId(String agencyId) {
         this.agencyId = agencyId;
-    }
-
-    public AgencyEntity getAgency() {
-        return agency;
-    }
-
-    public void setAgency(AgencyEntity agency) {
-        this.agency = agency;
     }
 
     public String getRouteShortName() {

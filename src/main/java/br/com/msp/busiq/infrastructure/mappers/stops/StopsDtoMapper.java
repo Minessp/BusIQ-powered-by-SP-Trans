@@ -24,4 +24,12 @@ public class StopsDtoMapper {
                 .stopLon(stops.stopLon())
                 .build();
     }
+
+    public StopsEntity toEntity(Stops stops) {
+        return new StopsEntity(stops.stopId(),
+                               stops.stopName(),
+                               stops.stopDesc(),
+                               stops.stopLat(),
+                               stops.stopLon());
+    }
 }

@@ -2,7 +2,9 @@ package br.com.msp.busiq.infrastructure.gateway.trips;
 
 import br.com.msp.busiq.core.domain.Trips;
 import br.com.msp.busiq.core.gateway.trips.TripsGateway;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.mappers.trips.TripsDtoMapper;
+import br.com.msp.busiq.infrastructure.persistence.entities.TripsEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.TripsRepository;
 
 import java.util.List;
@@ -10,10 +12,12 @@ import java.util.List;
 public class TripsGatewayImpl implements TripsGateway {
     private final TripsRepository tripsRepository;
     private final TripsDtoMapper tripsDtoMapper;
+    private final TxtParser txtParser;
 
-    public TripsGatewayImpl(TripsRepository tripsRepository, TripsDtoMapper tripsDtoMapper) {
+    public TripsGatewayImpl(TripsRepository tripsRepository, TripsDtoMapper tripsDtoMapper, TxtParser txtParser) {
         this.tripsRepository = tripsRepository;
         this.tripsDtoMapper = tripsDtoMapper;
+        this.txtParser = txtParser;
     }
 
     @Override
@@ -41,5 +45,11 @@ public class TripsGatewayImpl implements TripsGateway {
     public List<Trips> getTripsByTripHeadsign(String query) {
         return tripsRepository.findByTripHeadsignContainingIgnoreCase(query).stream()
                 .map(tripsDtoMapper::toDomain).toList();
+    }
+
+    @Override
+    public void saveTripsData() {
+        List<TripsEntity> trips = txtParser.toTrips().stream().map(tripsDtoMapper::toEntity).toList();
+        tripsRepository.saveAll(trips);
     }
 }

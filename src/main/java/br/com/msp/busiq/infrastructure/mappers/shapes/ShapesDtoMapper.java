@@ -24,4 +24,12 @@ public class ShapesDtoMapper {
                 .distTraveled(shapes.distTraveled())
                 .build();
     }
+
+    public ShapesEntity toEntity(Shapes shapes) {
+        return new ShapesEntity(shapes.shapeId(),
+                                shapes.lat(),
+                                shapes.lon(),
+                                shapes.sequence(),
+                                shapes.distTraveled());
+    }
 }

@@ -17,9 +17,7 @@ class TripsEntityTest extends DatabaseConnectionTest {
     void createTripAndCompareWithDatabaseSuccess() {
         TripsEntity trip = new TripsEntity(
                 "1012-10",
-                null,
                 "USD",
-                null,
                 "1012-10-0",
                 "Jd. Monte Belo",
                 0,

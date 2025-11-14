@@ -10,4 +10,6 @@ public interface AgencyGateway {
     Agency getAgencyById(String agencyId);
 
     Agency getAgencyByName(String agencyName);
+
+    void saveAgencyData();
 }

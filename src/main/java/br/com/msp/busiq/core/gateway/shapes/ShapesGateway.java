@@ -10,4 +10,6 @@ public interface ShapesGateway {
     List<Shapes> getShapesByShapeId(String shapeId);
 
     Shapes getShapeByIdAndSequence(String shapeId, int sequence);
+
+    void saveShapesData();
 }

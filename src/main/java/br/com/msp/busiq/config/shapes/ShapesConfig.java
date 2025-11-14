@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.shapes;
 
 import br.com.msp.busiq.core.gateway.shapes.ShapesGateway;
 import br.com.msp.busiq.core.usecases.shapes.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.shapes.ShapesGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.shapes.ShapesDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.ShapesRepository;
@@ -27,12 +28,18 @@ public class ShapesConfig {
     }
 
     @Bean
-    ShapesGateway shapesGateway(ShapesRepository shapesRepository, ShapesDtoMapper shapesDtoMapper) {
-        return new ShapesGatewayImpl(shapesRepository, shapesDtoMapper);
+    ShapesGateway shapesGateway(ShapesRepository shapesRepository, ShapesDtoMapper shapesDtoMapper,
+                                TxtParser txtParser) {
+        return new ShapesGatewayImpl(shapesRepository, shapesDtoMapper, txtParser);
     }
 
     @Bean
     ShapesDtoMapper shapesDtoMapper() {
         return new ShapesDtoMapper();
+    }
+
+    @Bean
+    SaveShapesDataCase saveShapesDataCase(ShapesGateway shapesGateway) {
+        return new SaveShapesDataInteractor(shapesGateway);
     }
 }

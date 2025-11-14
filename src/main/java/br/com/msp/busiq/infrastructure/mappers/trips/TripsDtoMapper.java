@@ -26,4 +26,13 @@ public class TripsDtoMapper {
                 .shapeId(trips.shapeId())
                 .build();
     }
+
+    public TripsEntity toEntity(Trips trips) {
+        return new TripsEntity(trips.routeId(),
+                               trips.serviceId(),
+                               trips.tripId(),
+                               trips.tripHeadsign(),
+                               trips.directionId(),
+                               trips.shapeId());
+    }
 }

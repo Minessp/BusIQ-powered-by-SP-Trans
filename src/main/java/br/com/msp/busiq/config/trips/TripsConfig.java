@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.trips;
 
 import br.com.msp.busiq.core.gateway.trips.TripsGateway;
 import br.com.msp.busiq.core.usecases.trips.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.trips.TripsGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.trips.TripsDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.TripsRepository;
@@ -31,12 +32,17 @@ public class TripsConfig {
     }
 
     @Bean
-    TripsGateway tripsGateway(TripsRepository tripsRepository, TripsDtoMapper tripsDtoMapper) {
-        return new TripsGatewayImpl(tripsRepository, tripsDtoMapper);
+    TripsGateway tripsGateway(TripsRepository tripsRepository, TripsDtoMapper tripsDtoMapper, TxtParser txtParser) {
+        return new TripsGatewayImpl(tripsRepository, tripsDtoMapper, txtParser);
     }
 
     @Bean
     TripsDtoMapper tripsDtoMapper() {
         return new TripsDtoMapper();
+    }
+
+    @Bean
+    SaveTripsDataCase saveTripsDataCase(TripsGateway tripsGateway) {
+        return new SaveTripsDataInteractor(tripsGateway);
     }
 }

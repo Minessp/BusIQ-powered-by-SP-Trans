@@ -22,7 +22,6 @@ class StopTimesEntityTest extends DatabaseConnectionTest {
                 LocalTime.of(18, 0, 0),
                 LocalTime.of(18, 0, 0),
                 "301790",
-                null,
                 1
         );
 

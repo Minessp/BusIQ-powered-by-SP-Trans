@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.stops;
 
 import br.com.msp.busiq.core.gateway.stops.StopsGateway;
 import br.com.msp.busiq.core.usecases.stops.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.stops.StopsGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.stops.StopsDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.StopsRepository;
@@ -27,12 +28,17 @@ public class StopsConfig {
     }
 
     @Bean
-    StopsGateway stopsGateway(StopsRepository stopsRepository, StopsDtoMapper stopsDtoMapper) {
-        return new StopsGatewayImpl(stopsRepository, stopsDtoMapper);
+    StopsGateway stopsGateway(StopsRepository stopsRepository, StopsDtoMapper stopsDtoMapper, TxtParser txtParser) {
+        return new StopsGatewayImpl(stopsRepository, stopsDtoMapper, txtParser);
     }
 
     @Bean
     StopsDtoMapper stopsDtoMapper() {
         return new StopsDtoMapper();
+    }
+
+    @Bean
+    SaveStopsDataCase saveStopsDataCase(StopsGateway stopsGateway) {
+        return new SaveStopsDataInteractor(stopsGateway);
     }
 }

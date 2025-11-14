@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.routes;
 
 import br.com.msp.busiq.core.gateway.routes.RoutesGateway;
 import br.com.msp.busiq.core.usecases.routes.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.routes.RoutesGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.routes.RoutesDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.RoutesRepository;
@@ -42,12 +43,18 @@ public class RoutesConfig {
     }
 
     @Bean
-    RoutesGateway routesGateway(RoutesRepository routesRepository, RoutesDtoMapper routesDtoMapper) {
-        return new RoutesGatewayImpl(routesRepository, routesDtoMapper);
+    RoutesGateway routesGateway(RoutesRepository routesRepository, RoutesDtoMapper routesDtoMapper,
+                                TxtParser txtParser) {
+        return new RoutesGatewayImpl(routesRepository, routesDtoMapper, txtParser);
     }
 
     @Bean
     RoutesDtoMapper routesDtoMapper() {
         return new RoutesDtoMapper();
+    }
+
+    @Bean
+    SaveRoutesDataCase saveRoutesDataCase(RoutesGateway routesGateway) {
+        return new SaveRoutesDataInteractor(routesGateway);
     }
 }

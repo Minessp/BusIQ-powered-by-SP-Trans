@@ -10,4 +10,6 @@ public interface StopTimesGateway {
     List<StopTimes> getStopTimeById(String tripId);
 
     StopTimes getStopTimeByTripIdAndStopId(String tripId, String stopId);
+
+    void saveStopTimesData();
 }

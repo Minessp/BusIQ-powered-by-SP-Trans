@@ -16,4 +16,6 @@ public interface RoutesGateway {
     List<Routes> getRoutesByContainsRouteLongName(String query);
 
     List<Routes> getRoutesByRouteColor(String routeColor);
+
+    void saveRoutesData();
 }

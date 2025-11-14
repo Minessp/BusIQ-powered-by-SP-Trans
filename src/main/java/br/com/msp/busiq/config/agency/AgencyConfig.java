@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.agency;
 
 import br.com.msp.busiq.core.gateway.agency.AgencyGateway;
 import br.com.msp.busiq.core.usecases.agency.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.agency.AgencyGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.agency.AgencyDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.AgencyRepository;
@@ -27,12 +28,17 @@ public class AgencyConfig {
     }
 
     @Bean
-    AgencyGateway agencyGateway(AgencyRepository agencyRepository, AgencyDtoMapper agencyDtoMapper) {
-        return new AgencyGatewayImpl(agencyRepository, agencyDtoMapper);
+    AgencyGateway agencyGateway(AgencyRepository agencyRepository, AgencyDtoMapper agencyDtoMapper, TxtParser txtParser) {
+        return new AgencyGatewayImpl(agencyRepository, agencyDtoMapper, txtParser);
     }
 
     @Bean
     AgencyDtoMapper agencyDtoMapper() {
         return new AgencyDtoMapper();
+    }
+
+    @Bean
+    SaveAgencyDataCase saveAgencyDataCase(AgencyGateway agencyGateway) {
+        return new SaveAgencyDataInteractor(agencyGateway);
     }
 }

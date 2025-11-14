@@ -18,7 +18,6 @@ class RoutesEntityTest extends DatabaseConnectionTest {
         RoutesEntity route = new RoutesEntity(
                 "1012-10-0",
                 "1",
-                null,
                 "1012-10",
                 "Term. Jd. Britania - Jd. Monte Belo",
                 "3",

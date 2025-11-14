@@ -1,5 +1,6 @@
 package br.com.msp.busiq.infrastructure.trigger;
 
+import br.com.msp.busiq.core.gateway.data.SaveDataGateway;
 import br.com.msp.busiq.core.usecases.gtfs.DownloadGtfsCase;
 import br.com.msp.busiq.core.usecases.gtfs.ExtractGtfsCase;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -9,15 +10,19 @@ import org.springframework.stereotype.Component;
 public class ScheduledDownloadTrigger {
     private final DownloadGtfsCase downloadGtfsCase;
     private final ExtractGtfsCase extractGtfsCase;
+    private final SaveDataGateway saveDataGateway;
 
-    public ScheduledDownloadTrigger(DownloadGtfsCase downloadGtfsCase, ExtractGtfsCase extractGtfsCase) {
+    public ScheduledDownloadTrigger(DownloadGtfsCase downloadGtfsCase, ExtractGtfsCase extractGtfsCase,
+                                    SaveDataGateway saveDataGateway) {
         this.downloadGtfsCase = downloadGtfsCase;
         this.extractGtfsCase = extractGtfsCase;
+        this.saveDataGateway = saveDataGateway;
     }
 
     @Scheduled(cron = "0 0 12 * * ?", zone = "America/Sao_Paulo")
     public void execute() {
         downloadGtfsCase.execute();
         extractGtfsCase.execute();
+        saveDataGateway.saveAllData();
     }
 }

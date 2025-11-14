@@ -36,4 +36,17 @@ public class CalendarDtoMapper {
                 .endDate(calendar.endDate())
                 .build();
     }
+
+    public CalendarEntity toEntity(Calendar calendar) {
+        return new CalendarEntity(calendar.serviceId(),
+                                  calendar.monday(),
+                                  calendar.tuesday(),
+                                  calendar.wednesday(),
+                                  calendar.thursday(),
+                                  calendar.friday(),
+                                  calendar.saturday(),
+                                  calendar.sunday(),
+                                  calendar.startDate(),
+                                  calendar.endDate());
+    }
 }

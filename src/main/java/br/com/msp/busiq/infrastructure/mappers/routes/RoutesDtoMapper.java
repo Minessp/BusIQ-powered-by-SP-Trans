@@ -28,4 +28,14 @@ public class RoutesDtoMapper {
                 .routeTextColor(routes.routeTextColor())
                 .build();
     }
+
+    public RoutesEntity toEntity(Routes routes) {
+        return new RoutesEntity(routes.routeId(),
+                                routes.agencyId(),
+                                routes.routeShortName(),
+                                routes.routeLongName(),
+                                routes.routeType(),
+                                routes.routeColor(),
+                                routes.routeTextColor());
+    }
 }

@@ -1,8 +1,8 @@
 package br.com.msp.busiq.infrastructure.controllers.calendar;
 
 import br.com.msp.busiq.core.domain.Calendar;
-import br.com.msp.busiq.core.usecases.calendars.GetCalendarByServiceId;
-import br.com.msp.busiq.core.usecases.calendars.GetCalendarsCase;
+import br.com.msp.busiq.core.usecases.calendar.GetCalendarByServiceId;
+import br.com.msp.busiq.core.usecases.calendar.GetCalendarsCase;
 import br.com.msp.busiq.infrastructure.controllers.CalendarController;
 import br.com.msp.busiq.infrastructure.dtos.CalendarResponse;
 import br.com.msp.busiq.infrastructure.exceptions.GlobalExceptionHandler;

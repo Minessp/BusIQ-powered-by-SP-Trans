@@ -10,16 +10,8 @@ public class FareRulesEntity {
     @Column(name = "fare_id", nullable = false, length = 64)
     private String fareId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fare_id", referencedColumnName = "fare_id", insertable = false, updatable = false)
-    private FareAttributesEntity fare;
-
     @Column(name = "route_id", length = 64)
     private String routeId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id", referencedColumnName = "route_id", insertable = false, updatable = false)
-    private RoutesEntity route;
 
     @Column(name = "origin_id", length = 64)
     private String originId;
@@ -32,12 +24,9 @@ public class FareRulesEntity {
 
     public FareRulesEntity() {}
 
-    public FareRulesEntity(String fareId, FareAttributesEntity fare, String routeId, RoutesEntity route,
-                           String originId, String destinationId, String containsId) {
+    public FareRulesEntity(String fareId, String routeId, String originId, String destinationId, String containsId) {
         this.fareId = fareId;
-        this.fare = fare;
         this.routeId = routeId;
-        this.route = route;
         this.originId = originId;
         this.destinationId = destinationId;
         this.containsId = containsId;
@@ -51,28 +40,12 @@ public class FareRulesEntity {
         this.fareId = fareId;
     }
 
-    public FareAttributesEntity getFare() {
-        return fare;
-    }
-
-    public void setFare(FareAttributesEntity fare) {
-        this.fare = fare;
-    }
-
     public String getRouteId() {
         return routeId;
     }
 
     public void setRouteId(String routeId) {
         this.routeId = routeId;
-    }
-
-    public RoutesEntity getRoute() {
-        return route;
-    }
-
-    public void setRoute(RoutesEntity route) {
-        this.route = route;
     }
 
     public String getOriginId() {

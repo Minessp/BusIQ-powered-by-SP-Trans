@@ -12,16 +12,8 @@ public class TripsEntity {
     @Column(name = "route_id", nullable = false, length = 64)
     private String routeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "route_id", referencedColumnName = "route_id", insertable = false, updatable = false)
-    private RoutesEntity route;
-
     @Column(name = "service_id", nullable = false, length = 64)
     private String serviceId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_id", referencedColumnName = "service_id", insertable = false, updatable = false)
-    private CalendarEntity calendar;
 
     @Column(name = "trip_headsign", length = 255)
     private String tripHeadsign;
@@ -34,13 +26,11 @@ public class TripsEntity {
 
     public TripsEntity() {}
 
-    public TripsEntity(String routeId, RoutesEntity route, String serviceId, CalendarEntity calendar, String tripId,
+    public TripsEntity(String routeId, String serviceId, String tripId,
                        String tripHeadsign, int directionId, String shapeId) {
         this.tripId = tripId;
         this.routeId = routeId;
-        this.route = route;
         this.serviceId = serviceId;
-        this.calendar = calendar;
         this.tripHeadsign = tripHeadsign;
         this.directionId = directionId;
         this.shapeId = shapeId;
@@ -62,28 +52,12 @@ public class TripsEntity {
         this.routeId = routeId;
     }
 
-    public RoutesEntity getRoute() {
-        return route;
-    }
-
-    public void setRoute(RoutesEntity route) {
-        this.route = route;
-    }
-
     public String getServiceId() {
         return serviceId;
     }
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
-    }
-
-    public CalendarEntity getCalendar() {
-        return calendar;
-    }
-
-    public void setCalendar(CalendarEntity calendar) {
-        this.calendar = calendar;
     }
 
     public String getTripHeadsign() {

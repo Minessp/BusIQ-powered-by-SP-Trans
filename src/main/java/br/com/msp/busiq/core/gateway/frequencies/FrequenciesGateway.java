@@ -8,4 +8,6 @@ public interface FrequenciesGateway {
     List<Frequencies> getAllFrequencies();
 
     List<Frequencies> getFrequenciesById(String tripId);
+
+    void saveFrequenciesData();
 }

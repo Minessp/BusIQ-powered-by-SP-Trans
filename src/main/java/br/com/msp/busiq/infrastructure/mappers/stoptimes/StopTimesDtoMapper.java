@@ -24,4 +24,12 @@ public class StopTimesDtoMapper {
                 .stopSequence(stopTimes.stopSequence())
                 .build();
     }
+
+    public StopTimesEntity toEntity(StopTimes stopTimes) {
+        return new StopTimesEntity(stopTimes.tripId(),
+                                   stopTimes.arrivalTime(),
+                                   stopTimes.departureTime(),
+                                   stopTimes.stopId(),
+                                   stopTimes.stopSequence());
+    }
 }

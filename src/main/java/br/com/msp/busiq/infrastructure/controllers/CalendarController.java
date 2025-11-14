@@ -1,7 +1,7 @@
 package br.com.msp.busiq.infrastructure.controllers;
 
-import br.com.msp.busiq.core.usecases.calendars.GetCalendarByServiceId;
-import br.com.msp.busiq.core.usecases.calendars.GetCalendarsCase;
+import br.com.msp.busiq.core.usecases.calendar.GetCalendarByServiceId;
+import br.com.msp.busiq.core.usecases.calendar.GetCalendarsCase;
 import br.com.msp.busiq.infrastructure.dtos.CalendarResponse;
 import br.com.msp.busiq.infrastructure.mappers.calendar.CalendarDtoMapper;
 import org.springframework.web.bind.annotation.*;

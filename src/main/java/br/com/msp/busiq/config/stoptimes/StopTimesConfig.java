@@ -2,6 +2,7 @@ package br.com.msp.busiq.config.stoptimes;
 
 import br.com.msp.busiq.core.gateway.stoptimes.StopTimesGateway;
 import br.com.msp.busiq.core.usecases.stoptimes.*;
+import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.stoptimes.StopTimesGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.stoptimes.StopTimesDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.StopTimesRepository;
@@ -27,12 +28,18 @@ public class StopTimesConfig {
     }
 
     @Bean
-    StopTimesGateway stopTimesGateway(StopTimesRepository stopTimesRepository, StopTimesDtoMapper stopTimesDtoMapper) {
-        return new StopTimesGatewayImpl(stopTimesRepository, stopTimesDtoMapper);
+    StopTimesGateway stopTimesGateway(StopTimesRepository stopTimesRepository, StopTimesDtoMapper stopTimesDtoMapper,
+                                      TxtParser txtParser) {
+        return new StopTimesGatewayImpl(stopTimesRepository, stopTimesDtoMapper, txtParser);
     }
 
     @Bean
     StopTimesDtoMapper stopTimesDtoMapper() {
         return new StopTimesDtoMapper();
+    }
+
+    @Bean
+    SaveStopTimesDataCase saveStopTimesDataCase(StopTimesGateway stopTimesGateway) {
+        return new SaveStopTimesDataInteractor(stopTimesGateway);
     }
 }

@@ -36,4 +36,12 @@ public class AgencyDtoMapper {
                 .agencyLang(agency.agencyLang())
                 .build();
     }
+
+    public AgencyEntity toEntity(Agency agency) {
+        return new AgencyEntity(agency.agencyId(),
+                                agency.agencyName(),
+                                agency.agencyUrl().toString(),
+                                agency.agencyTimezone(),
+                                agency.agencyLang());
+    }
 }

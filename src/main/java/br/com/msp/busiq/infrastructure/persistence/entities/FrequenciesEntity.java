@@ -10,10 +10,6 @@ public class FrequenciesEntity {
     @Column(name = "trip_id", nullable = false, length = 64)
     private String tripId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id", referencedColumnName = "trip_id", insertable = false, updatable = false)
-    private TripsEntity trip;
-
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
 
@@ -25,9 +21,8 @@ public class FrequenciesEntity {
 
     public FrequenciesEntity() {}
 
-    public FrequenciesEntity(String tripId, TripsEntity trip, LocalTime startTime, LocalTime endTime, int headwaySecs) {
+    public FrequenciesEntity(String tripId, LocalTime startTime, LocalTime endTime, int headwaySecs) {
         this.tripId = tripId;
-        this.trip = trip;
         this.startTime = startTime;
         this.endTime = endTime;
         this.headwaySecs = headwaySecs;
@@ -39,14 +34,6 @@ public class FrequenciesEntity {
 
     public void setTripId(String tripId) {
         this.tripId = tripId;
-    }
-
-    public TripsEntity getTrip() {
-        return trip;
-    }
-
-    public void setTrip(TripsEntity trip) {
-        this.trip = trip;
     }
 
     public LocalTime getStartTime() {

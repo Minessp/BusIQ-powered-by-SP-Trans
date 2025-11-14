@@ -8,4 +8,6 @@ public interface CalendarGateway {
     List<Calendar> getAllCalendars();
 
     Calendar getCalendarByServiceId(String serviceId);
+
+    void saveCalendarData();
 }

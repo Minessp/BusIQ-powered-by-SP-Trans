@@ -19,7 +19,6 @@ class FrequenciesEntityTest extends DatabaseConnectionTest {
     void createFrequenciesAndCompareWithDatabaseSuccess() {
         FrequenciesEntity frequencies = new FrequenciesEntity(
                 "1012-10-0",
-                null,
                 LocalTime.of(6, 0, 20),
                 LocalTime.of(7, 0, 0),
                 1200

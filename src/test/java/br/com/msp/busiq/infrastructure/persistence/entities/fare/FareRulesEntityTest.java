@@ -18,9 +18,7 @@ class FareRulesEntityTest extends DatabaseConnectionTest {
     void createFareRulesAndCompareWithDatabaseSuccess() {
         FareRulesEntity fareRules = new FareRulesEntity(
                 "CPTM",
-                null,
                 "CPTM L07",
-                null,
                 "",
                 "",
                 ""

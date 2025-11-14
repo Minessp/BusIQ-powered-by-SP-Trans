@@ -10,4 +10,6 @@ public interface StopsGateway {
     Stops getStopById(String stopId);
 
     List<Stops> findResultsStopsByStopName(String query);
+
+    void saveStopsData();
 }

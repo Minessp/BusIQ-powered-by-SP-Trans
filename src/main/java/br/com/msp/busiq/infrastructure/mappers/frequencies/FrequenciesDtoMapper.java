@@ -22,4 +22,11 @@ public class FrequenciesDtoMapper {
                 .headwaySecs(frequencies.headwaySecs())
                 .build();
     }
+
+    public FrequenciesEntity toEntity(Frequencies frequencies) {
+        return new FrequenciesEntity(frequencies.tripId(),
+                                     frequencies.startTime(),
+                                     frequencies.endTime(),
+                                     frequencies.headwaySecs());
+    }
 }
