@@ -1,6 +1,8 @@
 package br.com.msp.busiq.config.fare;
 
 import br.com.msp.busiq.core.gateway.fare.FareAttributesGateway;
+import br.com.msp.busiq.core.usecases.fare.GetFareAttributesCase;
+import br.com.msp.busiq.core.usecases.fare.GetFareAttributesInteractor;
 import br.com.msp.busiq.core.usecases.fare.SaveFareAttributesDataCase;
 import br.com.msp.busiq.core.usecases.fare.SaveFareAttributesDataInteractor;
 import br.com.msp.busiq.data.parser.TxtParser;
@@ -16,6 +18,11 @@ public class FareAttributesConfig {
     @Bean
     SaveFareAttributesDataCase saveFareAttributesDataCase(FareAttributesGateway fareAttributesGateway) {
         return new SaveFareAttributesDataInteractor(fareAttributesGateway);
+    }
+
+    @Bean
+    GetFareAttributesCase getFareAttributesCase(FareAttributesGateway fareAttributesGateway) {
+        return new GetFareAttributesInteractor(fareAttributesGateway);
     }
 
     @Bean

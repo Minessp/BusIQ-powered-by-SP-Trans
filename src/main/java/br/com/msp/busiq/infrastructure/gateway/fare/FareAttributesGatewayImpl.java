@@ -1,5 +1,6 @@
 package br.com.msp.busiq.infrastructure.gateway.fare;
 
+import br.com.msp.busiq.core.domain.fare.FareAttributes;
 import br.com.msp.busiq.core.gateway.fare.FareAttributesGateway;
 import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.mappers.fare.FareAttributesDtoMapper;
@@ -25,5 +26,10 @@ public class FareAttributesGatewayImpl implements FareAttributesGateway {
         List<FareAttributesEntity> fareAttributes = txtParser.toFareAttributes().stream()
                 .map(fareAttributesDtoMapper::toEntity).toList();
         fareAttributesRepository.saveAll(fareAttributes);
+    }
+
+    @Override
+    public List<FareAttributes> getFareAttributes() {
+        return fareAttributesRepository.findAll().stream().map(fareAttributesDtoMapper::toDomain).toList();
     }
 }

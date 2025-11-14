@@ -1,5 +1,6 @@
 package br.com.msp.busiq.infrastructure.gateway.fare;
 
+import br.com.msp.busiq.core.domain.fare.FareRules;
 import br.com.msp.busiq.core.gateway.fare.FareRulesGateway;
 import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.mappers.fare.FareRulesDtoMapper;
@@ -24,5 +25,10 @@ public class FareRulesGatewayImpl implements FareRulesGateway {
     public void saveFareRulesData() {
         List<FareRulesEntity> fareRules = txtParser.toFareRules().stream().map(fareRulesDtoMapper::toEntity).toList();
         fareRulesRepository.saveAll(fareRules);
+    }
+
+    @Override
+    public List<FareRules> getAllFareRules() {
+        return fareRulesRepository.findAll().stream().map(fareRulesDtoMapper::toDomain).toList();
     }
 }
