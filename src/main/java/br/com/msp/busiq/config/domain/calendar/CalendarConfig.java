@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.calendar;
+package br.com.msp.busiq.config.domain.calendar;
 
 import br.com.msp.busiq.core.gateway.calendar.CalendarGateway;
 import br.com.msp.busiq.core.usecases.calendar.SaveCalendarDataCase;

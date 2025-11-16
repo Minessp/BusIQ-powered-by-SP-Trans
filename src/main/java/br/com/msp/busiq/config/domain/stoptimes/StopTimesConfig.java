@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.stoptimes;
+package br.com.msp.busiq.config.domain.stoptimes;
 
 import br.com.msp.busiq.core.gateway.stoptimes.StopTimesGateway;
 import br.com.msp.busiq.core.usecases.stoptimes.*;

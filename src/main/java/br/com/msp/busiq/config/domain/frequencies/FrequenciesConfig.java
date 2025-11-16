@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.frequencies;
+package br.com.msp.busiq.config.domain.frequencies;
 
 import br.com.msp.busiq.core.gateway.frequencies.FrequenciesGateway;
 import br.com.msp.busiq.core.usecases.frequencies.*;

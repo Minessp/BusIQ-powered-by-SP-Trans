@@ -10,6 +10,7 @@ import br.com.msp.busiq.infrastructure.exceptions.GlobalExceptionHandler;
 import br.com.msp.busiq.infrastructure.mappers.agency.AgencyDtoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = AgencyController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @Import(GlobalExceptionHandler.class)
 class AgencyControllerTest {
 
@@ -86,7 +88,7 @@ class AgencyControllerTest {
         when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
         when(agencyDtoMapper.toResponse(agency2)).thenReturn(response2);
 
-        mockMvc.perform(get("/agencies"))
+        mockMvc.perform(get("/agency"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].agencyId").value("1"))
                 .andExpect(jsonPath("$[0].agencyName").value("Agencia 1"))
@@ -105,7 +107,7 @@ class AgencyControllerTest {
         when(getAgencyByIdCase.execute("1")).thenReturn(agency1);
         when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
 
-        mockMvc.perform(get("/agencies/id/1"))
+        mockMvc.perform(get("/agency/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("agencyId").value("1"))
                 .andExpect(jsonPath("agencyName").value("Agencia 1"))
@@ -118,7 +120,7 @@ class AgencyControllerTest {
     void returnExactlyOneAgencyByIdWithBadRequestStatus() throws Exception {
         when(getAgencyByIdCase.execute("2")).thenThrow(new IllegalArgumentException("Agência não encontrada"));
 
-        mockMvc.perform(get("/agencies/id/2"))
+        mockMvc.perform(get("/agency/id/2"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -127,7 +129,7 @@ class AgencyControllerTest {
         when(getAgencyByNameCase.execute("Agencia 1")).thenReturn(agency1);
         when(agencyDtoMapper.toResponse(agency1)).thenReturn(response1);
 
-        mockMvc.perform(get("/agencies/name/Agencia 1"))
+        mockMvc.perform(get("/agency/name/Agencia 1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("agencyId").value("1"))
                 .andExpect(jsonPath("agencyName").value("Agencia 1"))

@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.stops;
+package br.com.msp.busiq.config.domain.stops;
 
 import br.com.msp.busiq.core.gateway.stops.StopsGateway;
 import br.com.msp.busiq.core.usecases.stops.*;

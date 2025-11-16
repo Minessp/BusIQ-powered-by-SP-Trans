@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.shapes;
+package br.com.msp.busiq.config.domain.shapes;
 
 import br.com.msp.busiq.core.gateway.shapes.ShapesGateway;
 import br.com.msp.busiq.core.usecases.shapes.*;

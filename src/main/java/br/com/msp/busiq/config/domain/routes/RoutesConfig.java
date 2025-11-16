@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.routes;
+package br.com.msp.busiq.config.domain.routes;
 
 import br.com.msp.busiq.core.gateway.routes.RoutesGateway;
 import br.com.msp.busiq.core.usecases.routes.*;

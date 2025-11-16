@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.fare;
+package br.com.msp.busiq.config.domain.fare;
 
 import br.com.msp.busiq.core.gateway.fare.FareAttributesGateway;
 import br.com.msp.busiq.core.usecases.fare.GetFareAttributesCase;

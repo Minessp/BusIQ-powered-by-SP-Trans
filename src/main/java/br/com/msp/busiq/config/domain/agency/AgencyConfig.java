@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.agency;
+package br.com.msp.busiq.config.domain.agency;
 
 import br.com.msp.busiq.core.gateway.agency.AgencyGateway;
 import br.com.msp.busiq.core.usecases.agency.*;

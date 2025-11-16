@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/agencies")
+@RequestMapping("/agency")
 public class AgencyController {
     private final GetAgenciesCase getAgenciesCase;
     private final GetAgencyByIdCase getAgencyByIdCase;

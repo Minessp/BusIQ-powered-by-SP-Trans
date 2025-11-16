@@ -1,4 +1,4 @@
-package br.com.msp.busiq.config.trips;
+package br.com.msp.busiq.config.domain.trips;
 
 import br.com.msp.busiq.core.gateway.trips.TripsGateway;
 import br.com.msp.busiq.core.usecases.trips.*;
