@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Table(name = "api_key")
 public class ApiKey {
     @Id
-    private String id;
     private String publicId;
     private String secretHash;
     private boolean revoked = false;
@@ -22,23 +21,14 @@ public class ApiKey {
 
     public ApiKey() {}
 
-    public ApiKey(String publicId, String secretHash, boolean revoked, LocalDateTime createdAt, LocalDateTime expiresAt,
+    public ApiKey(String secretHash, boolean revoked, LocalDateTime createdAt, LocalDateTime expiresAt,
                   UserEntity user) {
-        this.id = UlidCreator.getUlid().toString();
-        this.publicId = publicId;
+        this.publicId = UlidCreator.getUlid().toString();
         this.secretHash = secretHash;
         this.revoked = revoked;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
         this.user = user;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPublicId() {
