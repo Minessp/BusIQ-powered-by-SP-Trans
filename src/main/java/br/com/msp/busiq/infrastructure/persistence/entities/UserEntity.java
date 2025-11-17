@@ -1,16 +1,19 @@
 package br.com.msp.busiq.infrastructure.persistence.entities;
 
 import com.github.f4b6a3.ulid.UlidCreator;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
     @Id
     private String id;
     private String name;
@@ -18,16 +21,21 @@ public class UserEntity {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<ApiKey> apiKeys;
+    private List<ApiKeyEntity> apiKeyEntities;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
+    private Set<RoleEntity> roles = new HashSet<>();
 
     public UserEntity() {}
 
-    public UserEntity(String name, String email, String password, List<ApiKey> apiKeys) {
+    public UserEntity(String name, String email, String password, RoleEntity role) {
         this.id = UlidCreator.getUlid().toString();
         this.name = name;
         this.email = email;
         this.password = password;
-        this.apiKeys = apiKeys;
+        this.roles.add(role);
     }
 
     public String getId() {
@@ -62,11 +70,51 @@ public class UserEntity {
         this.password = password;
     }
 
-    public List<ApiKey> getApiKeys() {
-        return apiKeys;
+    public List<ApiKeyEntity> getApiKeys() {
+        return apiKeyEntities;
     }
 
-    public void setApiKeys(List<ApiKey> apiKeys) {
-        this.apiKeys = apiKeys;
+    public void setApiKeys(List<ApiKeyEntity> apiKeyEntities) {
+        this.apiKeyEntities = apiKeyEntities;
+    }
+
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

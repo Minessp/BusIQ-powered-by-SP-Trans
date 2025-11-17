@@ -1,0 +1,36 @@
+package br.com.msp.busiq.config.domain.user;
+
+import br.com.msp.busiq.core.gateway.user.UserGateway;
+import br.com.msp.busiq.core.usecases.user.CreateUserCase;
+import br.com.msp.busiq.core.usecases.user.CreateUserInteractor;
+import br.com.msp.busiq.infrastructure.gateway.user.UserGatewayImpl;
+import br.com.msp.busiq.infrastructure.mappers.user.UserDtoMapper;
+import br.com.msp.busiq.infrastructure.persistence.repositories.UserRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+public class UserConfig {
+
+    @Bean
+    CreateUserCase createUserCase(UserGateway userGateway) {
+        return new CreateUserInteractor(userGateway);
+    }
+
+    @Bean
+    UserGateway userGateway(UserRepository userRepository, UserDtoMapper userDtoMapper) {
+        return new UserGatewayImpl(userRepository, userDtoMapper);
+    }
+
+    @Bean
+    UserDtoMapper userDtoMapper(PasswordEncoder passwordEncoder) {
+        return new UserDtoMapper(passwordEncoder);
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}

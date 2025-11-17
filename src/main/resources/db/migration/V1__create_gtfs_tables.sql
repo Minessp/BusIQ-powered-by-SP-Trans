@@ -96,3 +96,32 @@ CREATE TABLE IF NOT EXISTS fare_rules (
     CONSTRAINT fk_fare_rules_fare FOREIGN KEY (fare_id) REFERENCES fare_attributes (fare_id),
     CONSTRAINT fk_fare_rules_route FOREIGN KEY (route_id) REFERENCES routes (route_id)
 );
+
+CREATE TABLE IF NOT EXISTS roles (
+    role VARCHAR(64) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id       VARCHAR(64) PRIMARY KEY,
+    name     VARCHAR(255) NOT NULL,
+    email    VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users_roles (
+    user_id   VARCHAR(64) NOT NULL,
+    role_name VARCHAR(64) NOT NULL,
+    PRIMARY KEY (user_id, role_name),
+    CONSTRAINT fk_users_roles_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_users_roles_role FOREIGN KEY (role_name) REFERENCES roles (role)
+);
+
+CREATE TABLE IF NOT EXISTS api_key (
+    public_id  VARCHAR(64) PRIMARY KEY,
+    secret_hash VARCHAR(255) NOT NULL,
+    revoked    BOOLEAN DEFAULT FALSE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    user_id    VARCHAR(64) NOT NULL,
+    CONSTRAINT fk_api_key_user FOREIGN KEY (user_id) REFERENCES users (id)
+);

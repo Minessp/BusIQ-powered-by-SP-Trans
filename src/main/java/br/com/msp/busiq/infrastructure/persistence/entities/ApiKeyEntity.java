@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "api_key")
-public class ApiKey {
+public class ApiKeyEntity {
     @Id
     private String publicId;
     private String secretHash;
@@ -19,10 +19,10 @@ public class ApiKey {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public ApiKey() {}
+    public ApiKeyEntity() {}
 
-    public ApiKey(String secretHash, boolean revoked, LocalDateTime createdAt, LocalDateTime expiresAt,
-                  UserEntity user) {
+    public ApiKeyEntity(String secretHash, boolean revoked, LocalDateTime createdAt, LocalDateTime expiresAt,
+                        UserEntity user) {
         this.publicId = UlidCreator.getUlid().toString();
         this.secretHash = secretHash;
         this.revoked = revoked;
