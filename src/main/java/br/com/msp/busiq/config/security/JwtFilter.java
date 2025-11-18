@@ -1,6 +1,5 @@
 package br.com.msp.busiq.config.security;
 
-import br.com.msp.busiq.core.usecases.auth.ExtractTokenSubjectCase;
 import br.com.msp.busiq.infrastructure.gateway.auth.JwtAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,11 +11,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 public class JwtFilter extends OncePerRequestFilter {
-    private final ExtractTokenSubjectCase extractTokenSubjectCase;
-
-    public JwtFilter(ExtractTokenSubjectCase extractTokenSubjectCase) {
-        this.extractTokenSubjectCase = extractTokenSubjectCase;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

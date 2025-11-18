@@ -45,8 +45,8 @@ public class AuthConfig {
     }
 
     @Bean
-    public JwtFilter jwtFilter(ExtractTokenSubjectCase extractTokenSubjectCase) {
-        return new JwtFilter(extractTokenSubjectCase);
+    public JwtFilter jwtFilter() {
+        return new JwtFilter();
     }
 
     @Bean
