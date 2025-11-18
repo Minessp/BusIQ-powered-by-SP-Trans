@@ -31,11 +31,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         var authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .toList();
 
         List<String> roles = user.getRoles().stream()
-                .map(RoleEntity::getRole)
+                .map(RoleEntity::getName)
                 .toList();
 
         UserPrincipal principal = new UserPrincipal(user.getId(), user.getEmail(), roles);

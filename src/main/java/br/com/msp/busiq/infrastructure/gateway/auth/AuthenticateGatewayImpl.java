@@ -6,19 +6,16 @@ import br.com.msp.busiq.infrastructure.dtos.auth.AuthRequest;
 import br.com.msp.busiq.infrastructure.dtos.auth.AuthResponse;
 import br.com.msp.busiq.infrastructure.persistence.entities.UserEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.UserRepository;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AuthenticateGatewayImpl implements AuthGateway {
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
     private final GenerateTokenCase generateTokenCase;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticateGatewayImpl(UserRepository userRepository, AuthenticationManager authenticationManager,
+    public AuthenticateGatewayImpl(UserRepository userRepository,
                                    GenerateTokenCase generateTokenCase, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.generateTokenCase = generateTokenCase;
         this.passwordEncoder = passwordEncoder;
     }

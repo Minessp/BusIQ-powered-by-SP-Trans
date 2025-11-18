@@ -29,4 +29,10 @@ public class GlobalExceptionHandler {
         ApiError apiError = apiErrorMethod(e, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiError> internalServerExceptions(RuntimeException e) {
+        ApiError apiError = apiErrorMethod(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

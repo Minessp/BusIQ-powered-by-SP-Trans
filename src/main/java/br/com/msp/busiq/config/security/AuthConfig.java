@@ -34,9 +34,9 @@ public class AuthConfig {
     }
 
     @Bean
-    AuthGateway authGateway(UserRepository userRepository, AuthenticationManager authenticationManager,
-                            GenerateTokenCase generateTokenCase, PasswordEncoder passwordEncoder) {
-        return new AuthenticateGatewayImpl(userRepository, authenticationManager, generateTokenCase, passwordEncoder);
+    AuthGateway authGateway(UserRepository userRepository, GenerateTokenCase generateTokenCase,
+                            PasswordEncoder passwordEncoder) {
+        return new AuthenticateGatewayImpl(userRepository, generateTokenCase, passwordEncoder);
     }
 
     @Bean

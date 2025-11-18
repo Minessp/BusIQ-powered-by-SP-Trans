@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS fare_rules (
 );
 
 CREATE TABLE IF NOT EXISTS roles (
-    role VARCHAR(64) PRIMARY KEY
+    name VARCHAR(64) PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS users_roles (
     role_name VARCHAR(64) NOT NULL,
     PRIMARY KEY (user_id, role_name),
     CONSTRAINT fk_users_roles_user FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT fk_users_roles_role FOREIGN KEY (role_name) REFERENCES roles (role)
+    CONSTRAINT fk_users_roles_role FOREIGN KEY (role_name) REFERENCES roles (name)
 );
 
 CREATE TABLE IF NOT EXISTS api_key (
@@ -125,3 +125,6 @@ CREATE TABLE IF NOT EXISTS api_key (
     user_id    VARCHAR(64) NOT NULL,
     CONSTRAINT fk_api_key_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+INSERT INTO roles (name) VALUES ('ROLE_USER');

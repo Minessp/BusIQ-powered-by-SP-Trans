@@ -2,26 +2,41 @@ package br.com.msp.busiq.infrastructure.persistence.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
 
     @Id
-    private String role;
+    private String name;
 
-    public RoleEntity(String role) {
-        this.role = role;
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserEntity> users = new HashSet<>();
+
+    public RoleEntity(String name) {
+        this.name = name;
     }
 
     public RoleEntity() {}
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setName(String role) {
+        this.name = role;
+    }
+
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserEntity> users) {
+        this.users = users;
     }
 }

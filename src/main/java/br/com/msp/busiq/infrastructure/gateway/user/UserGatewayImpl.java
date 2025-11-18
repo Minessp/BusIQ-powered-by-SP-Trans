@@ -17,6 +17,10 @@ public class UserGatewayImpl implements UserGateway {
 
     @Override
     public UserEntity createUser(CreateUserRequest request) {
+        if(userRepository.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("Email já está em uso");
+        }
+
         return userRepository.save(userDtoMapper.createRequestToEntity(request));
     }
 }

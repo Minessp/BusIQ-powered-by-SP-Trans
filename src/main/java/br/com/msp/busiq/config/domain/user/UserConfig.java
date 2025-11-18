@@ -5,6 +5,7 @@ import br.com.msp.busiq.core.usecases.user.CreateUserCase;
 import br.com.msp.busiq.core.usecases.user.CreateUserInteractor;
 import br.com.msp.busiq.infrastructure.gateway.user.UserGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.user.UserDtoMapper;
+import br.com.msp.busiq.infrastructure.persistence.repositories.RoleRepository;
 import br.com.msp.busiq.infrastructure.persistence.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +26,8 @@ public class UserConfig {
     }
 
     @Bean
-    UserDtoMapper userDtoMapper(PasswordEncoder passwordEncoder) {
-        return new UserDtoMapper(passwordEncoder);
+    UserDtoMapper userDtoMapper(PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+        return new UserDtoMapper(passwordEncoder, roleRepository);
     }
 
     @Bean
