@@ -31,7 +31,7 @@ public class JwtTokenGateway implements TokenGateway {
     }
 
     @Override
-    public String validateToken(String token) {
+    public String extractTokenSubject(String token) {
         try {
             return JWT.require(Algorithm.HMAC256(secret))
                     .withIssuer("BusIQ-api")

@@ -4,6 +4,7 @@ import br.com.msp.busiq.core.gateway.auth.AuthGateway;
 import br.com.msp.busiq.core.gateway.auth.TokenGateway;
 import br.com.msp.busiq.core.usecases.auth.*;
 import br.com.msp.busiq.infrastructure.gateway.auth.AuthenticateGatewayImpl;
+import br.com.msp.busiq.infrastructure.gateway.auth.JwtAuthenticationProvider;
 import br.com.msp.busiq.infrastructure.gateway.auth.JwtTokenGateway;
 import br.com.msp.busiq.infrastructure.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +29,8 @@ public class AuthConfig {
     }
 
     @Bean
-    ValidateTokenCase validateTokenCase(TokenGateway tokenGateway) {
-        return new ValidateTokenInteractor(tokenGateway);
+    ExtractTokenSubjectCase validateTokenCase(TokenGateway tokenGateway) {
+        return new ExtractTokenSubjectInteractor(tokenGateway);
     }
 
     @Bean
@@ -44,7 +45,13 @@ public class AuthConfig {
     }
 
     @Bean
-    public SecurityFilter securityFilter(ValidateTokenCase validateTokenCase, UserRepository userRepository) {
-        return new SecurityFilter(validateTokenCase, userRepository);
+    public JwtFilter jwtFilter(ExtractTokenSubjectCase extractTokenSubjectCase) {
+        return new JwtFilter(extractTokenSubjectCase);
+    }
+
+    @Bean
+    JwtAuthenticationProvider jwtAuthenticationProvider(ExtractTokenSubjectCase extractTokenSubjectCase,
+                                                        UserRepository userRepository) {
+        return new JwtAuthenticationProvider(extractTokenSubjectCase, userRepository);
     }
 }

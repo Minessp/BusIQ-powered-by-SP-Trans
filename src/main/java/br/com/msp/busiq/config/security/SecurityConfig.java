@@ -1,5 +1,6 @@
 package br.com.msp.busiq.config.security;
 
+import br.com.msp.busiq.infrastructure.gateway.auth.JwtAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,10 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final SecurityFilter securityFilter;
+    private final JwtFilter jwtFilter;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
-    public SecurityConfig(SecurityFilter securityFilter) {
-        this.securityFilter = securityFilter;
+    public SecurityConfig(JwtFilter jwtFilter, JwtAuthenticationProvider jwtAuthenticationProvider) {
+        this.jwtFilter = jwtFilter;
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
     }
 
     @Bean
@@ -30,14 +33,16 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, authenticatedEndpoints()).authenticated()
+                        .requestMatchers(HttpMethod.GET, authenticatedGtfsEndpoints()).authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api-key").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users", "/auth").permitAll()
                         .anyRequest().denyAll())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(jwtAuthenticationProvider)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    private String[] authenticatedEndpoints() {
+    private String[] authenticatedGtfsEndpoints() {
         return new String[] {
                 "/agency/**",
                 "/calendar/**",
