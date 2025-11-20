@@ -1,6 +1,5 @@
 package br.com.msp.busiq.infrastructure.persistence.entities;
 
-import com.github.f4b6a3.ulid.UlidCreator;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,16 +19,6 @@ public class ApiKeyEntity {
     private UserEntity user;
 
     public ApiKeyEntity() {}
-
-    public ApiKeyEntity(String secretHash, boolean revoked, LocalDateTime createdAt, LocalDateTime expiresAt,
-                        UserEntity user) {
-        this.publicId = UlidCreator.getUlid().toString();
-        this.secretHash = secretHash;
-        this.revoked = revoked;
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
-        this.user = user;
-    }
 
     public String getPublicId() {
         return publicId;

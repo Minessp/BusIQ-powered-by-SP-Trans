@@ -1,6 +1,7 @@
 package br.com.msp.busiq.config.security;
 
-import br.com.msp.busiq.infrastructure.gateway.auth.JwtAuthenticationProvider;
+import br.com.msp.busiq.infrastructure.gateway.auth.apikey.ApiKeyAuthorizationManager;
+import br.com.msp.busiq.infrastructure.gateway.auth.jwt.JwtAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,43 +18,45 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final JwtFilter jwtFilter;
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final ApiKeyAuthorizationManager apiKeyAuthorizationManager;
 
-    public SecurityConfig(JwtFilter jwtFilter, JwtAuthenticationProvider jwtAuthenticationProvider) {
-        this.jwtFilter = jwtFilter;
+    public SecurityConfig(JwtAuthenticationProvider jwtAuthenticationProvider,
+                          ApiKeyAuthorizationManager apiKeyAuthorizationManager) {
         this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+        this.apiKeyAuthorizationManager = apiKeyAuthorizationManager;
     }
 
+    private final String[] GTFS_ENDPOINTS = {
+            "/agency/**",
+            "/calendar/**",
+            "/fare-attributes/**",
+            "/fare-rules/**",
+            "/frequencies/**",
+            "/routes/**",
+            "/stops/**",
+            "/stop-times/**",
+            "/trips/**"
+    };
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager)
+            throws Exception {
+        JwtFilter jwtFilter = new JwtFilter(authenticationManager);
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, authenticatedGtfsEndpoints()).authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api-key").permitAll()
+                        .requestMatchers(HttpMethod.GET, GTFS_ENDPOINTS).access(apiKeyAuthorizationManager)
+                        .requestMatchers(HttpMethod.POST, "/api-key").authenticated()
                         .requestMatchers(HttpMethod.POST, "/users", "/auth").permitAll()
                         .anyRequest().denyAll())
                 .authenticationProvider(jwtAuthenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-    }
-
-    private String[] authenticatedGtfsEndpoints() {
-        return new String[] {
-                "/agency/**",
-                "/calendar/**",
-                "/fare-attributes/**",
-                "/fare-rules/**",
-                "/frequencies/**",
-                "/routes/**",
-                "/stops/**",
-                "/stop-times/**",
-                "/trips/**"
-        };
     }
 
     @Bean
