@@ -24,7 +24,7 @@ public class ApiKeyIT extends DatabaseConnectionTest {
         CreateUserRequest createUserRequest = CreateUserRequest.builder()
                 .name("Xavier")
                 .email("xavier@oxford.com")
-                .password("discordUser")
+                .password("XavierOnTop@@Fullboxchp7")
                 .role("USER")
                 .build();
 
@@ -32,7 +32,7 @@ public class ApiKeyIT extends DatabaseConnectionTest {
 
         AuthRequest authRequest = AuthRequest.builder()
                 .email("xavier@oxford.com")
-                .password("discordUser")
+                .password("XavierOnTop@@Fullboxchp7")
                 .build();
 
         AuthResponse jwtTokenResponse = restTemplate.postForObject("/auth", authRequest, AuthResponse.class);

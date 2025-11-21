@@ -23,7 +23,7 @@ public class AuthIT extends DatabaseConnectionTest {
         CreateUserRequest request = CreateUserRequest.builder()
                 .name("Hellas Verona")
                 .email("italyleague@dominio.com")
-                .password("footballforlife")
+                .password("ItalyWin$$2025")
                 .role("")
                 .build();
 
@@ -61,7 +61,7 @@ public class AuthIT extends DatabaseConnectionTest {
         CreateUserRequest request = CreateUserRequest.builder()
                 .name("Hamburg SV")
                 .email("hsvdeutchland@hsv.com")
-                .password("nordderby2025")
+                .password("Nordderby&&2025")
                 .role("USER")
                 .build();
 
@@ -69,7 +69,7 @@ public class AuthIT extends DatabaseConnectionTest {
 
         AuthRequest authRequest = AuthRequest.builder()
                 .email("hsvdeutchland@hsv.com")
-                .password("nordderby2025")
+                .password("Nordderby&&2025")
                 .build();
 
         AuthResponse response = restTemplate.postForObject("/auth", authRequest, AuthResponse.class);
@@ -84,7 +84,7 @@ public class AuthIT extends DatabaseConnectionTest {
         CreateUserRequest request = CreateUserRequest.builder()
                 .name("Tierney")
                 .email("tierney@scotland.com")
-                .password("3x2againstDenmarkHero")
+                .password("3x2againstDenmarkHero@")
                 .role("USER")
                 .build();
 
