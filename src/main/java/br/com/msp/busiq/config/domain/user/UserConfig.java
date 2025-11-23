@@ -3,6 +3,9 @@ package br.com.msp.busiq.config.domain.user;
 import br.com.msp.busiq.core.gateway.user.UserGateway;
 import br.com.msp.busiq.core.usecases.user.CreateUserCase;
 import br.com.msp.busiq.core.usecases.user.CreateUserInteractor;
+import br.com.msp.busiq.core.usecases.user.UpdateUserCase;
+import br.com.msp.busiq.core.usecases.user.UpdateUserInteractor;
+import br.com.msp.busiq.infrastructure.dtos.user.UpdateUserRequest;
 import br.com.msp.busiq.infrastructure.gateway.user.UserGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.user.UserDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.RoleRepository;
@@ -18,6 +21,11 @@ public class UserConfig {
     @Bean
     CreateUserCase createUserCase(UserGateway userGateway) {
         return new CreateUserInteractor(userGateway);
+    }
+
+    @Bean
+    UpdateUserCase updateUserCase(UserGateway userGateway) {
+        return new UpdateUserInteractor(userGateway);
     }
 
     @Bean

@@ -19,7 +19,7 @@ public abstract class DatabaseConnectionTest {
     @SuppressWarnings("resource")
     @Container
     public static final PostgreSQLContainer<?> postgres =
-            new PostgreSQLContainer<>("postgres:17")
+            new PostgreSQLContainer<>("postgres:18")
                     .withDatabaseName(DATABASE_NAME)
                     .withUsername(DATABASE_USER)
                     .withPassword(DATABASE_PASSWORD);

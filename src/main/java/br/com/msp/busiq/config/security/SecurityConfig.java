@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, GTFS_ENDPOINTS).access(apiKeyAuthorizationManager)
                         .requestMatchers(HttpMethod.POST, "/api-key").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/users").authenticated()
                         .requestMatchers(HttpMethod.POST, "/users", "/auth").permitAll()
                         .anyRequest().denyAll())
                 .authenticationProvider(jwtAuthenticationProvider)
