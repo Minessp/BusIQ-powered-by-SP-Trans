@@ -6,6 +6,7 @@ import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.gateway.frequencies.FrequenciesGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.frequencies.FrequenciesDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.repositories.FrequenciesRepository;
+import br.com.msp.busiq.infrastructure.persistence.repositories.TripsRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,8 +26,8 @@ public class FrequenciesConfig {
     @Bean
     FrequenciesGateway frequenciesGateway(FrequenciesRepository frequenciesRepository,
                                           FrequenciesDtoMapper frequenciesDtoMapper,
-                                          TxtParser txtParser) {
-        return new FrequenciesGatewayImpl(frequenciesRepository, frequenciesDtoMapper, txtParser);
+                                          TxtParser txtParser, TripsRepository tripRepository) {
+        return new FrequenciesGatewayImpl(frequenciesRepository, frequenciesDtoMapper, txtParser, tripRepository);
     }
 
     @Bean

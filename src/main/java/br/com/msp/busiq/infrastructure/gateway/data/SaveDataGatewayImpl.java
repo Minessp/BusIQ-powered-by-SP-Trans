@@ -50,12 +50,12 @@ public class SaveDataGatewayImpl implements SaveDataGateway {
         saveAgencyDataCase.execute();
         saveCalendarDataCase.execute();
         saveFareAttributesDataCase.execute();
-        saveFareRulesDataCase.execute();
-        saveFrequenciesDataCase.execute();
         saveRoutesDataCase.execute();
+        saveFareRulesDataCase.execute();
+        saveTripsDataCase.execute();
+        saveFrequenciesDataCase.execute();
         saveShapesDataCase.execute();
         saveStopsDataCase.execute();
         saveStopTimesDataCase.execute();
-        saveTripsDataCase.execute();
     }
 }

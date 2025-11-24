@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class TxtParser {
@@ -55,13 +56,13 @@ public class TxtParser {
     public List<Calendar> toCalendar() {
         return reader.parse("calendar.txt", cols -> {
             String serviceId = cols[0];
-            boolean monday = Boolean.parseBoolean(cols[1]);
-            boolean tuesday = Boolean.parseBoolean(cols[2]);
-            boolean wednesday = Boolean.parseBoolean(cols[3]);
-            boolean thursday = Boolean.parseBoolean(cols[4]);
-            boolean friday = Boolean.parseBoolean(cols[5]);
-            boolean saturday = Boolean.parseBoolean(cols[6]);
-            boolean sunday = Boolean.parseBoolean(cols[7]);
+            boolean monday = Objects.equals(cols[1], "1");
+            boolean tuesday = Objects.equals(cols[2], "1");
+            boolean wednesday = Objects.equals(cols[3], "1");
+            boolean thursday = Objects.equals(cols[4], "1");
+            boolean friday = Objects.equals(cols[5], "1");
+            boolean saturday = Objects.equals(cols[6], "1");
+            boolean sunday = Objects.equals(cols[7], "1");
             String startDateStr = cols[8];
             String endDateStr = cols[9];
 

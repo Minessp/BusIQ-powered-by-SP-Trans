@@ -6,6 +6,7 @@ import br.com.msp.busiq.data.parser.TxtParser;
 import br.com.msp.busiq.infrastructure.mappers.frequencies.FrequenciesDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.entities.FrequenciesEntity;
 import br.com.msp.busiq.infrastructure.persistence.repositories.FrequenciesRepository;
+import br.com.msp.busiq.infrastructure.persistence.repositories.TripsRepository;
 
 import java.util.List;
 
@@ -13,13 +14,15 @@ public class FrequenciesGatewayImpl implements FrequenciesGateway {
     private final FrequenciesRepository frequenciesRepository;
     private final FrequenciesDtoMapper frequenciesDtoMapper;
     private final TxtParser txtParser;
+    private final TripsRepository tripRepository;
 
     public FrequenciesGatewayImpl(FrequenciesRepository frequenciesRepository,
                                   FrequenciesDtoMapper frequenciesDtoMapper,
-                                  TxtParser txtParser) {
+                                  TxtParser txtParser, TripsRepository tripRepository) {
         this.frequenciesRepository = frequenciesRepository;
         this.frequenciesDtoMapper = frequenciesDtoMapper;
         this.txtParser = txtParser;
+        this.tripRepository = tripRepository;
     }
 
     @Override
@@ -40,6 +43,11 @@ public class FrequenciesGatewayImpl implements FrequenciesGateway {
     public void saveFrequenciesData() {
         List<FrequenciesEntity> frequencies = txtParser.toFrequencies().stream()
                 .map(frequenciesDtoMapper::toEntity).toList();
-        frequenciesRepository.saveAll(frequencies);
+
+        List<FrequenciesEntity> validFrequencies = frequencies.stream()
+                .filter(f -> tripRepository.existsById(f.getTripId()))
+                .toList();
+
+        frequenciesRepository.saveAll(validFrequencies);
     }
 }
