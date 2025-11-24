@@ -50,13 +50,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET, GTFS_ENDPOINTS).access(apiKeyAuthorizationManager)
                         .requestMatchers(HttpMethod.POST, "/api-key").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/users").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users", "/auth").permitAll()
-                        .anyRequest().denyAll())
+                        .anyRequest().permitAll())
                 .authenticationProvider(jwtAuthenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
