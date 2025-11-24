@@ -24,6 +24,12 @@ Paulo. Uma paixão minha, interligada a outras paixões: Java, dados e ônibus.
 - Recursos de consulta de dados via REST
 - Conteinerização com Docker
 
+## ⌚ Funcionalidades Futuras:
+- Front-end integrado com o projeto
+- Real-Time data (dados em tempo real)
+- Melhorias de performance
+- Deploy em nuvem dedicada
+
 ## 📋 Pré-requisitos
 - Java 21+
 - Maven 3.9.x+
