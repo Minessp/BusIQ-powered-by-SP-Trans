@@ -3,6 +3,7 @@ package br.com.msp.busiq.infrastructure.gateway.user;
 import br.com.msp.busiq.core.domain.UserPrincipal;
 import br.com.msp.busiq.core.gateway.user.UserGateway;
 import br.com.msp.busiq.infrastructure.dtos.user.CreateUserRequest;
+import br.com.msp.busiq.infrastructure.dtos.user.GetUserResponse;
 import br.com.msp.busiq.infrastructure.dtos.user.UpdateUserRequest;
 import br.com.msp.busiq.infrastructure.mappers.user.UserDtoMapper;
 import br.com.msp.busiq.infrastructure.persistence.entities.UserEntity;
@@ -10,6 +11,8 @@ import br.com.msp.busiq.infrastructure.persistence.repositories.UserRepository;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 public class UserGatewayImpl implements UserGateway {
     private final UserRepository userRepository;
@@ -23,12 +26,12 @@ public class UserGatewayImpl implements UserGateway {
     }
 
     @Override
-    public UserEntity createUser(CreateUserRequest request) {
+    public void createUser(CreateUserRequest request) {
         if(userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email já está em uso");
         }
 
-        return userRepository.save(userDtoMapper.createRequestToEntity(request));
+        userRepository.save(userDtoMapper.createRequestToEntity(request));
     }
 
     @Override
@@ -57,5 +60,25 @@ public class UserGatewayImpl implements UserGateway {
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUserById(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
+
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<GetUserResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(userDtoMapper::fromEntityToUserResponse).toList();
+    }
+
+    @Override
+    public GetUserResponse getUserById(String id) {
+        return userDtoMapper.fromEntityToUserResponse(userRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Usuário não encontrado")));
     }
 }

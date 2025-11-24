@@ -3,13 +3,17 @@ package br.com.msp.busiq.integrationtests;
 import br.com.msp.busiq.infrastructure.dtos.auth.AuthRequest;
 import br.com.msp.busiq.infrastructure.dtos.auth.AuthResponse;
 import br.com.msp.busiq.infrastructure.dtos.user.CreateUserRequest;
+import br.com.msp.busiq.infrastructure.dtos.user.GetUserResponse;
 import br.com.msp.busiq.infrastructure.dtos.user.UpdateUserRequest;
 import br.com.msp.busiq.infrastructure.persistence.entities.DatabaseConnectionTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -136,7 +140,7 @@ public class UserIT extends DatabaseConnectionTest {
     }
 
     @Test
-    void shouldReturnBadRequestWhenTriedUpdateUserNameWithoutCurrentPassword() {
+    void shouldReturnBadRequestWhenTryUpdateUserNameWithoutCurrentPassword() {
         CreateUserRequest createUserRequest = CreateUserRequest.builder()
                 .name("Alfred")
                 .email("alfred@pipeup.com")
@@ -165,5 +169,63 @@ public class UserIT extends DatabaseConnectionTest {
         ResponseEntity<Void> updateResponse = restTemplate.exchange("/users", HttpMethod.PATCH, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, updateResponse.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnAllUsersWithSuccess() {
+        CreateUserRequest createUserRequest = CreateUserRequest.builder()
+                .name("vozJJso")
+                .email("vozjjsom@pipeup.com")
+                .password("Memorrt@1100")
+                .role("ADMIN")
+                .build();
+
+        restTemplate.postForEntity("/users", createUserRequest, Void.class);
+
+        AuthRequest authRequest = AuthRequest.builder()
+                .email("vozjjsom@pipeup.com")
+                .password("Memorrt@1100")
+                .build();
+
+        AuthResponse authResponse = restTemplate.postForObject("/auth", authRequest, AuthResponse.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authResponse.token());
+
+        HttpEntity<?> entity = new HttpEntity<>(null, headers);
+
+        ResponseEntity<List<GetUserResponse>> getResponse = restTemplate.exchange("/users", HttpMethod.GET, entity,
+                new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+    }
+
+    @Test
+    void shouldReturnForbiddenWhenTryGetUsersWithoutAdminRole() {
+        CreateUserRequest createUserRequest = CreateUserRequest.builder()
+                .name("Hacker56ouf")
+                .email("hackingforfun@goodact.com")
+                .password("moemajupiter@rD22")
+                .role("USER")
+                .build();
+
+        restTemplate.postForEntity("/users", createUserRequest, Void.class);
+
+        AuthRequest authRequest = AuthRequest.builder()
+                .email("hackingforfun@goodact.com")
+                .password("moemajupiter@rD22")
+                .build();
+
+        AuthResponse authResponse = restTemplate.postForObject("/auth", authRequest, AuthResponse.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authResponse.token());
+
+        HttpEntity<?> entity = new HttpEntity<>(null, headers);
+
+        ResponseEntity<List<GetUserResponse>> getResponse = restTemplate.exchange("/users", HttpMethod.GET, entity,
+                new ParameterizedTypeReference<>() {});
+
+        assertEquals(HttpStatus.FORBIDDEN, getResponse.getStatusCode());
     }
 }

@@ -1,10 +1,7 @@
 package br.com.msp.busiq.config.domain.user;
 
 import br.com.msp.busiq.core.gateway.user.UserGateway;
-import br.com.msp.busiq.core.usecases.user.CreateUserCase;
-import br.com.msp.busiq.core.usecases.user.CreateUserInteractor;
-import br.com.msp.busiq.core.usecases.user.UpdateUserCase;
-import br.com.msp.busiq.core.usecases.user.UpdateUserInteractor;
+import br.com.msp.busiq.core.usecases.user.*;
 import br.com.msp.busiq.infrastructure.dtos.user.UpdateUserRequest;
 import br.com.msp.busiq.infrastructure.gateway.user.UserGatewayImpl;
 import br.com.msp.busiq.infrastructure.mappers.user.UserDtoMapper;
@@ -26,6 +23,21 @@ public class UserConfig {
     @Bean
     UpdateUserCase updateUserCase(UserGateway userGateway) {
         return new UpdateUserInteractor(userGateway);
+    }
+
+    @Bean
+    DeleteUserByIdCase deleteUserByIdCase(UserGateway userGateway) {
+        return new DeleteUserByIdInteractor(userGateway);
+    }
+
+    @Bean
+    GetUsersCase getUsersCase(UserGateway userGateway) {
+        return new GetUsersInteractor(userGateway);
+    }
+
+    @Bean
+    GetUserByIdCase getUserByIdCase(UserGateway userGateway) {
+        return new GetUserByIdInteractor(userGateway);
     }
 
     @Bean

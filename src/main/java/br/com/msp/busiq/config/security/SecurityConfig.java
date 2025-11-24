@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, GTFS_ENDPOINTS).access(apiKeyAuthorizationManager)
                         .requestMatchers(HttpMethod.POST, "/api-key").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/users").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users", "/auth").permitAll()
                         .anyRequest().denyAll())
                 .authenticationProvider(jwtAuthenticationProvider)

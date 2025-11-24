@@ -12,7 +12,7 @@ public class CreateUserInteractor implements CreateUserCase {
     }
 
     @Override
-    public UserEntity execute(CreateUserRequest request) {
-        return userGateway.createUser(request);
+    public void execute(CreateUserRequest request) {
+        userGateway.createUser(request);
     }
 }
